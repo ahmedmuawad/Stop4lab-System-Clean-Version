@@ -52,6 +52,8 @@
             @php
                 $count_categories = 0;
             @endphp
+            @if(!empty($categories) && is_iterable($categories))
+
             @foreach ($categories as $key => $category)
                 @if (count($category['tests']) || count($category['cultures']))
                     @if ($count_categories > 0)
@@ -895,4 +897,6 @@
     </div>
     @endif
 
-@endsection
+
+@endif
+    @endsection

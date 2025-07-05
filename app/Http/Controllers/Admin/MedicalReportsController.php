@@ -1177,23 +1177,26 @@ class MedicalReportsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function bulk_print_report(BulkActionRequest $request)
-    {
-        $pdf = PDFMerger::init();
+  
+     public function bulk_print_report(BulkActionRequest $request)
+{
+    $pdfMerger = PDFMerger::init();
 
-        foreach ($request['ids'] as $id) {
-            $group = Group::find($id);
+    foreach ($request['ids'] as $id) {
+        $group = Group::find($id);
 
-            $pdf_url = $this->prePrintPdf2($group, false);
+        // احصل على رابط ملف PDF
+        $pdf_url = $this->prePrintPdf2($group, false);
 
-            $pdf->addString(file_get_contents($pdf_url));
-        }
-
-        $pdf->merge();
-        $pdf->save('uploads/pdf/bulk.pdf');
-
-        return redirect('uploads/pdf/bulk.pdf');
+        // أضف الملف إلى PDFMerger بالطريقة الصحيحة
+        $pdfMerger->addPDF(public_path(parse_url($pdf_url, PHP_URL_PATH)), 'all');
     }
+
+    $pdfMerger->merge();
+    $pdfMerger->save('uploads/pdf/bulk.pdf');
+
+    return redirect('uploads/pdf/bulk.pdf');
+}
 
     /**
      * Bulk print barcode
@@ -1226,30 +1229,30 @@ class MedicalReportsController extends Controller
             $groups = Group::whereIn('id', $request['ids'])->get();
 
             foreach ($groups as $group) {
-                $group->update([
-                    'uploaded_report' => false,
-                ]);
+    $group->update([
+        'uploaded_report' => false,
+    ]);
 
-                //add signature
-                $group->update([
-                    'signed_by' => auth()
-                        ->guard('admin')
-                        ->user()->id,
-                ]);
+    //add signature
+    $group->update([
+        'signed_by' => auth()
+            ->guard('admin')
+            ->user()->id,
+    ]);
 
-                $categories = $this->prePrintPdf($group);
-                $pdf = generate_pdf_2([
-                    'group' => $group,
-                    'categories' => $categories,
-                ]);
+    $categories = $this->prePrintPdf2($group, true); // <-- تم إضافة الباراميتر الثاني
+    $pdf = generate_pdf_2([
+        'group' => $group,
+        'categories' => $categories,
+    ]);
 
-                if (isset($pdf)) {
-                    $group->update(['report_pdf' => $pdf]);
-                }
+    if (isset($pdf)) {
+        $group->update(['report_pdf' => $pdf]);
+    }
 
-                //send notification to patient
-                send_notification('tests_notification', $group['patient']);
-            }
+    //send notification to patient
+    send_notification('tests_notification', $group['patient']);
+}
 
             session()->flash('success', __('Reports signed successfully'));
 

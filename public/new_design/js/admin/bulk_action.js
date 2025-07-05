@@ -44,10 +44,7 @@ var token=$('input[name=_token]').val();
                         <i class="fas fa-file-word"></i>
                         `+trans('Print working paper')+`
                     </a>
-                    <a href="`+url('admin/'+action)+`/bulk/send_receipt_mail" class="bulk_button dropdown-item" warning_message="`+trans('Are you sure to send bulk receipts ?')+`">
-                        <i class="fas fa-envelope"></i>
-                        `+trans('Send receipt')+`
-                    </a>
+                    
                     `;
                 }
                 

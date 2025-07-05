@@ -1691,6 +1691,31 @@ class GroupsController extends Controller
         return redirect($pdf);
     }
 
+ /**
+     * Bulk print Reports
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+
+    public function bulk_print_reports(BulkActionRequest $request)
+    {
+    $groups = Group::whereIn('id', $request['ids'])->get();
+
+    $pdf = PDFMerger::init();
+
+    foreach ($groups as $group) {
+        // توليد تقرير PDF لكل جروب
+        $url = generate_pdf_2($group, 2); // غيّر الرقم حسب نوع التقرير المطلوب
+        $pdf->addString(file_get_contents($url));
+        }
+
+    $pdf->merge();
+    $pdf->save('uploads/pdf/bulk_reports.pdf');
+
+    return redirect('uploads/pdf/bulk_reports.pdf');
+    }
+
     /**
      * Bulk print receipts
      *

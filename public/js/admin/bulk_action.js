@@ -50,6 +50,8 @@ var token=$('input[name=_token]').val();
                         <i class="fas fa-envelope"></i>
                         `+trans('Send receipt')+`
                     </a>
+                     
+                    
                     `;
                 }
 
@@ -128,16 +130,16 @@ var token=$('input[name=_token]').val();
                 }
                 else if(action != NaN){
                     delete_action=`
-                    <a href="`+url('admin/auto_comment/getcomments')+`/bulk/delete" class="bulk_button" id="delete_bulk" warning_message="`+trans('Are you sure to Delete All ?')+`">
+                    <a href="`+url('admin/groups')+`/bulk/delete" class="bulk_button dropdown-item text-success" id="delete_bulk" warning_message="`+trans('Are you sure to Delete All ?')+`">
                         <i class="fa fa-trash"></i>
-                        `+trans('Delete All')+`
+                        `+trans('Delete')+`
                     </a>
                     `;
                 }
                 else{
 
                     delete_action=`
-                    <a href="`+url('admin/'+action)+`/bulk/delete" class="bulk_button dropdown-item text-danger" id="delete_bulk" warning_message="`+trans('Are you sure to delete bulk ?')+`">
+                    <a href="`+url('admin/'+action)+`/bulk/delete" class="bulk_button" id="delete_bulk" warning_message="`+trans('Are you sure to delete bulk ?')+`">
                         <i class="fa fa-trash"></i>
                         `+trans('Delete')+`
                     </a>

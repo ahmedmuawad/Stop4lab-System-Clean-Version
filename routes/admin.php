@@ -144,6 +144,7 @@ Route::group(['prefix'=>'admin','as'=>'admin.','namespace'=>'Admin','middleware'
     Route::post('groups/bulk/send_receipt_mail','GroupsController@bulk_send_receipt_mail')->name('groups.bulk_send_receipt_mail');
     Route::post('group/check/test/{id}','GroupsController@checkTest')->name('group.check.test');
     Route::post('group/ray/base/{id}','GroupsController@rayBasedBy')->name('group.ray.based_by');
+    Route::post('groups/bulk/print_reports','GroupsController@bulk_print_reports')->name('groups.bulk_print_reports');
 
     Route::post('pay-delayed-money', 'GroupsController@payDelayedMoney')->name('group.pay_delayed_money');
     Route::post('retrieve/{id}', 'GroupsController@retrieve')->name('group.retrieve');
