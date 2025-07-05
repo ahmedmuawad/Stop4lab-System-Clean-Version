@@ -1,0 +1,42 @@
+@extends('layouts.app')
+
+@section('title')
+{{__('Create Offer')}}
+@endsection
+
+@section('css')
+@endsection
+
+@section('breadcrumb')
+            <li class="breadcrumb-item"><a href="{{route('admin.index')}}">{{__('Home')}}</a></li>
+            <li class="breadcrumb-item"><a href="{{route('admin.cultures.index')}}">{{__('Offers')}}</a></li>
+            <li class="breadcrumb-item active">{{__('Create Culture')}}</li>
+@endsection
+
+@section('content')
+<div class="card card-primary">
+    <div class="card-header">
+      <h3 class="card-title">{{__('Create Offer')}}</h3>
+    </div>
+    <form method="POST" action="{{route('admin.current_offers.store')}}">
+        <!-- /.card-header -->
+        <div class="card-body">
+            @csrf
+            @include('admin.CurrentOffers._form')
+        </div>
+        <!-- /.card-body -->
+        <div class="card-footer">
+            <button type="submit" class="btn btn-primary">
+              <i class="fa fa-check"></i> {{__('Save')}}
+            </button>
+        </div>
+    </form>
+
+</div>
+@endsection
+@section('scripts')
+  <!-- Summernote -->
+  <script src="{{url('plugins/summernote/summernote-bs4.min.js')}}"></script>
+
+  <script src="{{url('js/admin/offers.js')}}"></script>
+@endsection

@@ -1,0 +1,350 @@
+<div class="row">
+    <div class="col-lg-12">
+        <div class="form-group">
+            <label for="title">{{ __('Title') }}</label>
+            <input type="text" class="form-control" name="title" placeholder="{{ __('Contract title') }}" id="title"
+                @if (isset($contract)) value="{{ $contract->title }}" @elseif(old('title')) value="{{ old('title') }}" @endif
+                required>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="form-group">
+            <label for="description">{{ __('Description') }}</label>
+            <textarea name="description" id="description" cols="30" rows="10" class="form-control">
+@if (!empty($contract))
+{{ $contract['description'] }}
+@endif
+</textarea>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="form-group">
+            <label for="government">المحافظة</label>
+            <input name="government" id="government"
+                value="@if (!empty($contract)) {{ $contract['government'] }} @endif" class="form-control"
+                required>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="form-group">
+            <label for="region">المنطقة</label>
+            <input name="region" id="region"
+                value="@if (!empty($contract)) {{ $contract['region'] }} @endif" class="form-control"
+                required>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-6">
+        <div class="form-group">
+            <label for="is_out">استلام العينات خارجيا ؟</label>
+            <input type="checkbox" name="is_out" id="is_out"
+                value="1" {{ !empty($contract) && $contract['is_out'] == 1 ? 'checked' : '' }} class="form-control"
+                >
+        </div>
+    </div>
+</div>
+
+<div class="card card-primary">
+    <div class="card-header">
+        <h5 class="card-title">
+            {{ __('Discount') }}
+        </h5>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-lg-4">
+                <div class="form-group">
+                    <label for="">{{ __('Discount type') }}</label>
+                    <ul class="list-style-none">
+                        <li>
+                            <input type="radio" class="discount_type" name="discount_type" value="1"
+                                id="percentage" class="d-inline" @if (isset($contract) && $contract['discount_type'] == 1) checked @endif
+                                required>
+                            <label for="percentage" class="d-inline">{{ __('Percentage') }}</label>
+                            <div class="form-group @if (!isset($contract) || $contract['discount_type'] == 2) d-none @endif">
+                                <input type="number" class="form-control" name="discount_percentage"
+                                    id="discount_percentage" placeholder="{{ __('Contract discount %') }}"
+                                     max="100"
+                                    @if (isset($contract)) value="{{ $contract->discount_percentage }}" @else value="0" @endif
+                                    required>
+                            </div>
+                        </li>
+                        <li>
+                            <input type="radio" class="discount_type" name="discount_type" value="2"
+                                id="discount" class="d-inline" @if ((isset($contract) && $contract['discount_type'] == 2) || !isset($contract)) checked @endif
+                                required>
+                            <label for="discount" class="d-inline">{{ __('Custom price') }}</label>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+
+            <div class="col-lg-12">
+                <div class="card card-primary">
+                    <div class="card-header">
+                        <h5 class="card-title">
+                            {{ __('Tests') }}
+                        </h5>
+                        @if (isset($contract))
+                            <a href="{{ route('admin.refresh_tests_contract', $contract->id) }}"
+                                class="btn btn-success btn-sm float-right">
+                                {{ __('Refresh') }}
+                            </a>
+                        @endif
+                    </div>
+                    <div class="card-body">
+                        <table class="table table-striped table-bordered" id="tests_table">
+                            <thead>
+                                <tr>
+                                    <th width="10px"></th>
+                                    <th>{{ __('Name') }}</th>
+                                    <th width="130px">{{ __('Price') }}</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (isset($contract))
+                                    @foreach ($contract['tests']->sortBy(function ($q){return isset($q['priceable']['id'])? $q['priceable']['id'] : 0;  } ) as $test)
+                                        @if (isset($test['priceable']['name']))
+                                            <tr>
+                                                <td>
+                                                    <input type="checkbox" class="form-control" name="refuse_test[]" value="{{ $test['priceable']['id']}}" @if($test['is_refuse']) checked @endif />
+                                                </td>
+                                                <td>
+                                                    {{ $test['priceable']['name'] }}
+                                                </td>
+                                                <td>
+                                                    <input type="number" class="form-control price"
+                                                        name="tests[{{ $test['priceable']['id'] }}]"
+                                                        value="{{ $test['price'] }}"
+                                                        price="{{ $test['priceable']['price'] }}" required>
+                                                </td>
+                                            </tr>
+                                        @endif
+                                    @endforeach
+                                @else
+                                    @foreach ($tests as $test)
+                                        <tr>
+                                            <td>
+                                                <input type="checkbox" class="form-control" name="refuse_test[]" value="{{ $test['id']}}"  />
+                                            </td>
+                                            <td>
+                                                {{ $test['name'] }}
+                                            </td>
+                                            <td>
+                                                <input type="number" class="form-control price"
+                                                    name="tests[{{ $test['id'] }}]" value="{{ $test['price'] }}"
+                                                    price="{{ $test['price'] }}" required>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                @endif
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-12">
+                <div class="card card-primary">
+                    <div class="card-header">
+                        <h5 class="card-title">
+                            {{ __('Cultures') }}
+                        </h5>
+                        @if (isset($contract))
+                            <a href="{{ route('admin.refresh_cultures_contract', $contract->id) }}"
+                                class="btn btn-success btn-sm float-right">
+                                {{ __('Refresh') }}
+                            </a>
+                        @endif
+                    </div>
+                    <div class="card-body">
+                        <table class="table table-striped table-bordered" id="cultures_table">
+                            <thead>
+                                <tr>
+                                    <th width="10px"></th>
+                                    <th>{{ __('Name') }}</th>
+                                    <th width="130px">{{ __('Price') }}</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (isset($contract))
+                                    @foreach ($contract['cultures'] as $culture)
+                                        <tr>
+                                            <td>
+                                                <input type="checkbox" class="form-control" name="refuse_culture[]" value="{{ $culture['priceable']['id']}}" @if($culture['is_refuse']) checked @endif />
+                                            </td>
+                                            <td>
+                                                {{ $culture['priceable']['name'] }}
+                                            </td>
+                                            <td>
+                                                <input type="number" class="form-control price"
+                                                    name="cultures[{{ $culture['priceable']['id'] }}]"
+                                                    value="{{ $culture['price'] }}"
+                                                    price="{{ $culture['priceable']['price'] }}" required>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                @else
+                                    @foreach ($cultures as $culture)
+                                        <tr>
+                                            <td>
+                                                <input type="checkbox" class="form-control" name="refuse_culture[]" value="{{ $culture['id']}}"  />
+                                            </td>
+                                            <td>
+                                                {{ $culture['name'] }}
+                                            </td>
+                                            <td>
+                                                <input type="number" class="form-control price"
+                                                    name="cultures[{{ $culture['id'] }}]"
+                                                    value="{{ $culture['price'] }}" price="{{ $culture['price'] }}"
+                                                    required>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                @endif
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-12">
+                <div class="card card-primary">
+                    <div class="card-header">
+                        <h5 class="card-title">
+                            {{ __('Packages') }}
+                        </h5>
+                        @if (isset($contract))
+                            <a href="{{ route('admin.refresh_packages_contract', $contract->id) }}"
+                                class="btn btn-success btn-sm float-right">
+                                {{ __('Refresh') }}
+                            </a>
+                        @endif
+                    </div>
+                    <div class="card-body">
+                        <table class="table table-striped table-bordered" id="packages_table">
+                            <thead>
+                                <tr>
+                                    <th width="10px"></th>
+                                    <th>{{ __('Name') }}</th>
+                                    <th width="130px">{{ __('Price') }}</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (isset($contract))
+                                    @foreach ($contract['packages'] as $package)
+                                        @if (isset($package['priceable']))
+                                            <tr>
+                                                <td>
+                                                    <input type="checkbox" class="form-control" name="refuse_package[]" value="{{ $package['priceable']['id']}}" @if($package['is_refuse']) checked @endif />
+                                                </td>
+                                                <td>
+
+                                                    {{ $package['priceable']['name'] }}
+                                                </td>
+                                                <td>
+                                                    <input type="number" class="form-control price"
+                                                        name="packages[{{ $package['priceable']['id'] }}]"
+                                                        value="{{ $package['price'] }}"
+                                                        price="{{ $package['priceable']['price'] }}" required>
+                                                </td>
+                                            </tr>
+                                        @endif
+                                    @endforeach
+                                @else
+                                    @foreach ($packages as $package)
+                                        <tr>
+                                            <td>
+                                                <input type="checkbox" class="form-control" name="refuse_package[]" value="{{ $package['id']}}"  />
+                                            </td>
+                                            <td>
+                                                {{ $package['name'] }}
+                                            </td>
+                                            <td>
+                                                <input type="number" class="form-control price"
+                                                    name="packages[{{ $package['id'] }}]"
+                                                    value="{{ $package['price'] }}" price="{{ $package['price'] }}"
+                                                    required>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                @endif
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card card-primary">
+                    <div class="card-header">
+                        <h5 class="card-title">
+                            {{__('Sub Contact')}}
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <table class="table table-bordered table-stripped">
+                                    <thead class="sub">
+                                        <tr>
+                                            <th>{{__('Sub Contact')}}</th>
+                                            <th>{{__('Discount Percentage')}}</th>
+                                            <th width="10px">
+                                                <button type="button" class="btn btn-sm btn-primary add_contract">
+                                                    <i class="fa fa-plus"></i>
+                                                </button>
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @php 
+                                            $count=0;
+                                        @endphp
+                                        @if(isset($contract))
+                                            @foreach($contract['sub_contracts'] as $child)
+                                                @php 
+                                                    $count=$child['id'];
+                                                @endphp
+                                                <tr>
+                                                    <td>
+                                                        <input type="text" name="old_contracts[{{$child['id']}}][title]" id="" placeholder="{{__('Sub Title')}}" value="{{$child['title']}}" class="form-control" required>
+                                                    </td>
+                                                    <td>
+                                                        <input type="number" name="old_contracts[{{$child['id']}}][discount_percentage]" id=""  max="100"  value="{{$child['discount_percentage']}}" class="form-control" required>
+                                                    </td>
+                                                    <td>
+                                                        <button type="button" class="btn btn-danger btn-sm delete_row" contract_id="{{$child['id']}}">
+                                                            <i class="fa fa-trash"></i>
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+                                        @endif
+                                    </tbody>
+                                </table>
+                                <input type="hidden" name="" id="count_contracts" value="{{$count}}">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

@@ -1,0 +1,1321 @@
+@php
+    if (session()->has('branch_id')) {
+        $branch_rays = App\Models\Branch::find(session('branch_id'));
+        if ($branch_rays != null) {
+            $branch_rays = $branch_rays->ray_status;
+        }
+    } else {
+        $branch_rays = 0;
+    }
+@endphp
+@if (Auth::guard('admin')->check())
+    <!--  BEGIN SIDEBAR  -->
+    <div class="sidebar-wrapper sidebar-theme">
+
+        <nav id="sidebar">
+            <div class="shadow-bottom"></div>
+
+            <ul class="list-unstyled menu-categories" id="accordionExample">
+
+                {{-- Dashboard --}}
+                <li class="menu active">
+
+                    <a href="{{ route('admin.index') }}" data-active="true" aria-expanded="true" class="dropdown-toggle">
+                        <div class="">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                fill="#33A9F8" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round" class="feather feather-home">
+                                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                                <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                            </svg>
+                            <span>{{ __('Dashboard') }}</span>
+                        </div>
+                    </a>
+                </li>
+                {{-- Reception --}}
+                @can('view_group')
+                    <li class="menu">
+                        <a href="#Reception" data-toggle="collapse" aria-expanded="true" class="dropdown-toggle">
+                            <div class="">
+                                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                                    version="1.1" id="Layer_1" x="0px" y="0px"
+                                    viewBox="0 0 503.607 503.607" style="enable-background:new 0 0 503.607 503.607;"
+                                    xml:space="preserve">
+                                    <g transform="translate(1 1)">
+                                        <polygon style="fill:#FD9808;"
+                                            points="334.738,217.229 418.672,217.229 418.672,183.656 334.738,183.656  " />
+                                        <g>
+                                            <path style="fill:#FFDD09;"
+                                                d="M427.066,183.656H326.344c0-27.698,22.662-50.361,50.361-50.361l0,0    C404.403,133.295,427.066,155.957,427.066,183.656" />
+                                            <polygon style="fill:#FFDD09;"
+                                                points="326.344,242.41 427.066,242.41 427.066,217.229 326.344,217.229   " />
+                                        </g>
+                                        <path style="fill:#DB4D6C;"
+                                            d="M192.049,57.754c0,27.698-22.662,50.361-50.361,50.361S91.328,85.452,91.328,57.754   S113.99,7.393,141.689,7.393S192.049,30.056,192.049,57.754" />
+                                        <path style="fill:#1CD759;"
+                                            d="M181.138,129.098c-11.751,7.554-25.18,12.59-39.449,12.59s-27.698-5.036-38.61-12.59   c-17.626,11.751-28.538,31.895-28.538,54.557v58.754h134.295v-58.754C208.836,160.993,197.925,140.849,181.138,129.098" />
+                                        <polygon style="fill:#FD9808;"
+                                            points="343.131,292.77 494.213,292.77 494.213,242.41 343.131,242.41  " />
+                                        <polygon style="fill:#FFFFFF;"
+                                            points="7.393,292.77 158.475,292.77 158.475,242.41 7.393,242.41  " />
+                                        <polygon style="fill:#FFDD09;"
+                                            points="32.574,292.77 469.033,292.77 469.033,242.41 32.574,242.41  " />
+                                        <path style="fill:#FD9808;"
+                                            d="M469.033,494.213h-268.59c-9.233,0-16.787-7.554-16.787-16.787V292.77H485.82v184.656   C485.82,486.659,478.266,494.213,469.033,494.213" />
+                                        <path style="fill:#FFFFFF;"
+                                            d="M301.164,494.213H32.574c-9.233,0-16.787-7.554-16.787-16.787V292.77h302.164v184.656   C317.951,486.659,310.397,494.213,301.164,494.213" />
+                                        <path style="fill:#FFDD09;"
+                                            d="M443.852,494.213H57.754c-9.233,0-16.787-7.554-16.787-16.787V292.77h419.672v184.656   C460.639,486.659,453.085,494.213,443.852,494.213" />
+                                        <path style="fill:#33A9F8;"
+                                            d="M309.557,393.492c0-36.931-30.216-67.148-67.148-67.148s-67.148,30.216-67.148,67.148   s30.216,67.148,67.148,67.148S309.557,430.423,309.557,393.492" />
+                                        <path style="fill:#54C9FD;"
+                                            d="M284.377,393.492c0-36.931-24.341-67.148-54.557-67.148s-54.557,30.216-54.557,67.148   s24.341,67.148,54.557,67.148S284.377,430.423,284.377,393.492" />
+                                        <path
+                                            d="M494.213,301.164H7.393c-5.036,0-8.393-3.357-8.393-8.393V242.41c0-5.036,3.357-8.393,8.393-8.393h486.82   c5.036,0,8.393,3.357,8.393,8.393v50.361C502.607,297.807,499.249,301.164,494.213,301.164z M15.787,284.377H485.82v-33.574H15.787   V284.377z" />
+                                        <path
+                                            d="M208.836,250.803H74.541c-5.036,0-8.393-3.357-8.393-8.393v-58.754c0-24.341,11.751-47.003,31.895-61.272   c2.518-1.679,6.715-1.679,10.072,0c20.144,14.269,47.843,14.269,67.987,0c2.518-1.679,6.715-1.679,10.072,0   c20.144,14.269,31.895,36.931,31.895,61.272v58.754C217.229,247.446,213.872,250.803,208.836,250.803z M82.934,234.016h117.508   v-50.361c0-16.787-7.554-32.734-20.144-44.485c-23.502,14.269-53.718,14.269-77.22,0c-12.59,11.751-20.144,27.698-20.144,44.485   V234.016z" />
+                                        <path
+                                            d="M141.689,116.508c-32.734,0-58.754-26.02-58.754-58.754S108.954-1,141.689-1s58.754,26.02,58.754,58.754   S174.423,116.508,141.689,116.508z M141.689,15.787c-23.502,0-41.967,18.466-41.967,41.967s18.466,41.967,41.967,41.967   s41.967-18.466,41.967-41.967S165.19,15.787,141.689,15.787z" />
+                                        <path
+                                            d="M418.672,225.623h-83.934c-5.036,0-8.393-3.357-8.393-8.393v-33.574c0-5.036,3.357-8.393,8.393-8.393h83.934   c5.036,0,8.393,3.357,8.393,8.393v33.574C427.066,222.266,423.708,225.623,418.672,225.623z M343.131,208.836h67.148v-16.787   h-67.148V208.836z" />
+                                        <path
+                                            d="M427.066,192.049H326.344c-5.036,0-8.393-3.357-8.393-8.393c0-32.734,26.02-58.754,58.754-58.754   s58.754,26.02,58.754,58.754C435.459,188.692,432.102,192.049,427.066,192.049z M335.577,175.262h82.256   c-4.197-19.305-20.984-33.574-41.128-33.574S339.774,155.957,335.577,175.262z" />
+                                        <path
+                                            d="M427.066,250.803H326.344c-5.036,0-8.393-3.357-8.393-8.393v-25.18c0-5.036,3.357-8.393,8.393-8.393h100.721   c5.036,0,8.393,3.357,8.393,8.393v25.18C435.459,247.446,432.102,250.803,427.066,250.803z M334.738,234.016h83.934v-8.393h-83.934   V234.016z" />
+                                        <path
+                                            d="M469.033,502.607H32.574c-14.269,0-25.18-10.911-25.18-25.18V292.77c0-5.036,3.357-8.393,8.393-8.393H485.82   c5.036,0,8.393,3.357,8.393,8.393v184.656C494.213,491.695,483.302,502.607,469.033,502.607z M24.18,301.164v176.262   c0,5.036,3.357,8.393,8.393,8.393h436.459c5.036,0,8.393-3.357,8.393-8.393V301.164H24.18z" />
+                                        <path
+                                            d="M141.689,217.229c-3.357,0-5.875-1.679-7.554-4.197l-25.18-41.967c-1.679-3.357-1.679-7.554,1.679-10.072l25.18-25.18   c3.357-3.357,8.393-3.357,11.751,0l25.18,25.18c2.518,2.518,3.357,6.715,1.679,10.072l-25.18,41.967   C147.564,215.551,145.046,217.229,141.689,217.229z M127.42,168.548l14.269,24.341l14.269-24.341l-14.269-15.108L127.42,168.548z" />
+                                        <path
+                                            d="M242.41,469.033c-41.967,0-75.541-33.574-75.541-75.541s33.574-75.541,75.541-75.541s75.541,33.574,75.541,75.541   S284.377,469.033,242.41,469.033z M242.41,334.738c-32.734,0-58.754,26.02-58.754,58.754s26.02,58.754,58.754,58.754   s58.754-26.02,58.754-58.754S275.144,334.738,242.41,334.738z" />
+                                        <path
+                                            d="M242.41,435.459c-23.502,0-41.967-18.466-41.967-41.967c0-5.036,3.357-8.393,8.393-8.393c5.036,0,8.393,3.357,8.393,8.393   c0,14.269,10.911,25.18,25.18,25.18c5.036,0,8.393,3.357,8.393,8.393S247.446,435.459,242.41,435.459z" />
+                                        <path
+                                            d="M275.984,401.885c-5.036,0-8.393-3.357-8.393-8.393c0-14.269-10.911-25.18-25.18-25.18c-5.036,0-8.393-3.357-8.393-8.393   c0-5.036,3.357-8.393,8.393-8.393c23.502,0,41.967,18.466,41.967,41.967C284.377,398.528,281.02,401.885,275.984,401.885z" />
+                                        <path
+                                            d="M74.541,469.033H15.787c-5.036,0-8.393-3.357-8.393-8.393c0-5.036,3.357-8.393,8.393-8.393h58.754   c5.036,0,8.393,3.357,8.393,8.393C82.934,465.675,79.577,469.033,74.541,469.033z" />
+                                        <path
+                                            d="M74.541,435.459H15.787c-5.036,0-8.393-3.357-8.393-8.393s3.357-8.393,8.393-8.393h58.754c5.036,0,8.393,3.357,8.393,8.393   S79.577,435.459,74.541,435.459z" />
+                                        <path
+                                            d="M485.82,469.033h-58.754c-5.036,0-8.393-3.357-8.393-8.393c0-5.036,3.357-8.393,8.393-8.393h58.754   c5.036,0,8.393,3.357,8.393,8.393C494.213,465.675,490.856,469.033,485.82,469.033z" />
+                                        <path
+                                            d="M485.82,435.459h-58.754c-5.036,0-8.393-3.357-8.393-8.393s3.357-8.393,8.393-8.393h58.754   c5.036,0,8.393,3.357,8.393,8.393S490.856,435.459,485.82,435.459z" />
+                                    </g>
+                                </svg>
+                                <span>{{ __('Reception') }} </span>
+                            </div>
+                            <div>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round" class="feather feather-chevron-right">
+                                    <polyline points="9 18 15 12 9 6"></polyline>
+                                </svg>
+                            </div>
+                        </a>
+
+                        <ul class="collapse submenu list-unstyled" id="Reception" data-parent="#accordionExample">
+                            @can('view_vault')
+                                <li>
+                                    <a href="{{ route('admin.vault.index') }}"> {{ __('Vault') }} </a>
+                                </li>
+                            @endcan
+                            <li>
+                                <a href="{{ route('admin.groups.index') }}"> {{ __('Invoices') }} </a>
+                            </li>
+                            <li>
+                                <a href="{{ route('admin.groups.create') }}"> {{ __('Patient Registeration') }} </a>
+                            </li>
+                            @if ($branch_rays)
+                                <li>
+                                    <a href="{{ route('admin.ray_groups.create') }}">
+                                        {{ __('Create Ray Invoice') }}
+                                    </a>
+                                </li>
+                            @endif
+                            @can('view_retrieve_group')
+                                <li>
+                                    <a href="{{ url('admin/retrieved') }}"> {{ __('Retrieved') }} </a>
+                                </li>
+                            @endcan
+                            <li>
+                                <a href="{{ route('admin.patients.index') }}"> {{ __('Patients') }} </a>
+                            </li>
+                            <li>
+                                <a href="{{ route('admin.prefix.index') }}"> {{ __('Prefix') }} </a>
+                            </li>
+                            <!--<li>-->
+                            <!--    <a href="{{ route('admin.patients.create') }}"> {{ __('Add Patient') }} </a>-->
+                            <!--</li>-->
+                        </ul>
+                    </li>
+                @endcan
+                {{-- Medical Reports --}}
+                @can('view_medical_report')
+                    <li class="menu">
+                        <a href="#Medical" data-toggle="collapse" aria-expanded="true" class="dropdown-toggle">
+                            <div class="">
+                                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                                    version="1.1" id="Layer_1" x="0px" y="0px" viewBox="0 0 512 512"
+                                    style="enable-background:new 0 0 512 512;" xml:space="preserve">
+                                    <path style="fill:#82C8DB;"
+                                        d="M421.067,463.618L315.914,169.68V8.987h-44.664L249.463,169.68l98.043,334.967h44.664  C416.136,504.647,429.139,486.184,421.067,463.618z" />
+                                    <path style="fill:#A3DDE9;"
+                                        d="M376.403,463.618l-0.911-2.547l-53.004-80.274l0.394-66.79L271.251,169.68V8.987h-75.166V169.68  L90.932,463.618c-8.072,22.566,4.932,41.029,28.897,41.029h227.677C371.472,504.647,384.476,486.184,376.403,463.618z" />
+                                    <polygon style="fill:#419EBE;"
+                                        points="307.27,314.009 191.296,314.009 138.685,461.072 338.837,461.072 338.837,406.604 " />
+                                    <polygon style="fill:#146A8A;"
+                                        points="322.882,314.009 295.287,314.009 326.854,461.072 375.493,461.072 " />
+                                    <path
+                                        d="M360.768,399.357c-1.52-4.249-6.193-6.463-10.445-4.94c-4.249,1.52-6.461,6.196-4.94,10.445l16.893,47.224l-212.554-0.001  l46.764-130.722h119.026l18.862,52.728c1.519,4.247,6.191,6.461,10.445,4.94c4.249-1.52,6.461-6.196,4.94-10.445l-20.8-58.146  c-1.162-3.25-4.242-5.418-7.693-5.418H190.732c-3.451,0-6.531,2.169-7.693,5.418l-52.61,147.062  c-0.895,2.502-0.517,5.285,1.013,7.457c1.531,2.173,4.022,3.465,6.68,3.465l235.754,0.002c2.657,0,5.149-1.292,6.68-3.465  c1.531-2.173,1.908-4.954,1.013-7.457L360.768,399.357z" />
+                                    <path
+                                        d="M428.759,460.049L324.085,167.446V16.34h13.617c4.512,0,8.17-3.658,8.17-8.17S342.214,0,337.702,0H174.297  c-4.512,0-8.17,3.658-8.17,8.17s3.658,8.17,8.17,8.17h13.617v151.105L83.24,460.049c-4.755,13.292-3.498,26.572,3.448,36.433  C93.632,506.344,105.712,512,119.829,512h272.34c14.117,0,26.197-5.656,33.143-15.518  C432.258,486.621,433.515,473.342,428.759,460.049z M411.954,487.073c-3.9,5.537-10.926,8.586-19.784,8.586h-272.34  c-8.858,0-15.884-3.049-19.784-8.586c-3.9-5.537-4.404-13.179-1.422-21.519l105.153-293.938c0.316-0.883,0.477-1.814,0.477-2.752  V16.34h103.489v152.523c0,0.938,0.161,1.868,0.477,2.752l105.153,293.938C416.358,473.894,415.854,481.536,411.954,487.073z" />
+                                </svg>
+                                <span>{{ __('Medical reports') }} </span>
+                            </div>
+                            <div>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                    stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right">
+                                    <polyline points="9 18 15 12 9 6"></polyline>
+                                </svg>
+                            </div>
+                        </a>
+
+                        <ul class="collapse submenu list-unstyled" id="Medical" data-parent="#accordionExample">
+                            <li>
+                                <a href="{{ route('admin.medical_reports.index') }}"> {{ __('All Medical reports') }}
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ route('admin.medical_reports.index', ['type' => 'done']) }}">
+                                    {{ __('Done reports') }} </a>
+                            </li>
+                            <li>
+                                <a href="{{ route('admin.medical_reports.index', ['type' => 'pending']) }}">
+                                    {{ __('Pending reports') }} </a>
+                            </li>
+                            <li>
+                                <a href="{{ route('admin.medical_reports.index', ['type' => 'unsigned']) }}">{{ __('Unsigned reports') }}
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ route('admin.labs_out.index') }}">{{ __('Out Labs') }} </a>
+                            </li>
+                            <li>
+                                <a href="{{ route('admin.medical_reports.index', ['type' => 'sample_status']) }}">{{ __('Sample Status') }}
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                @endcan
+                {{-- Test & Culutre --}}
+                @canany(['view_category', 'view_test', 'view_culture', 'view_culture_option', 'view_antibiotic'])
+                    <li class="menu">
+                        <a href="#Test-Culutre" data-toggle="collapse" aria-expanded="true" class="dropdown-toggle">
+                            <div class="">
+                                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                                    version="1.1" id="Layer_1" x="0px" y="0px" viewBox="0 0 512 512"
+                                    style="enable-background:new 0 0 512 512;" xml:space="preserve">
+                                    <path style="fill:#82C8DB;"
+                                        d="M421.067,463.618L315.914,169.68V8.987h-44.664L249.463,169.68l98.043,334.967h44.664  C416.136,504.647,429.139,486.184,421.067,463.618z" />
+                                    <path style="fill:#A3DDE9;"
+                                        d="M376.403,463.618l-0.911-2.547l-53.004-80.274l0.394-66.79L271.251,169.68V8.987h-75.166V169.68  L90.932,463.618c-8.072,22.566,4.932,41.029,28.897,41.029h227.677C371.472,504.647,384.476,486.184,376.403,463.618z" />
+                                    <polygon style="fill:#419EBE;"
+                                        points="307.27,314.009 191.296,314.009 138.685,461.072 338.837,461.072 338.837,406.604 " />
+                                    <polygon style="fill:#146A8A;"
+                                        points="322.882,314.009 295.287,314.009 326.854,461.072 375.493,461.072 " />
+                                    <path
+                                        d="M360.768,399.357c-1.52-4.249-6.193-6.463-10.445-4.94c-4.249,1.52-6.461,6.196-4.94,10.445l16.893,47.224l-212.554-0.001  l46.764-130.722h119.026l18.862,52.728c1.519,4.247,6.191,6.461,10.445,4.94c4.249-1.52,6.461-6.196,4.94-10.445l-20.8-58.146  c-1.162-3.25-4.242-5.418-7.693-5.418H190.732c-3.451,0-6.531,2.169-7.693,5.418l-52.61,147.062  c-0.895,2.502-0.517,5.285,1.013,7.457c1.531,2.173,4.022,3.465,6.68,3.465l235.754,0.002c2.657,0,5.149-1.292,6.68-3.465  c1.531-2.173,1.908-4.954,1.013-7.457L360.768,399.357z" />
+                                    <path
+                                        d="M428.759,460.049L324.085,167.446V16.34h13.617c4.512,0,8.17-3.658,8.17-8.17S342.214,0,337.702,0H174.297  c-4.512,0-8.17,3.658-8.17,8.17s3.658,8.17,8.17,8.17h13.617v151.105L83.24,460.049c-4.755,13.292-3.498,26.572,3.448,36.433  C93.632,506.344,105.712,512,119.829,512h272.34c14.117,0,26.197-5.656,33.143-15.518  C432.258,486.621,433.515,473.342,428.759,460.049z M411.954,487.073c-3.9,5.537-10.926,8.586-19.784,8.586h-272.34  c-8.858,0-15.884-3.049-19.784-8.586c-3.9-5.537-4.404-13.179-1.422-21.519l105.153-293.938c0.316-0.883,0.477-1.814,0.477-2.752  V16.34h103.489v152.523c0,0.938,0.161,1.868,0.477,2.752l105.153,293.938C416.358,473.894,415.854,481.536,411.954,487.073z" />
+                                </svg>
+                                <span>{{ __('Tests & Cultures') }} </span>
+                            </div>
+                            <div>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                    stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right">
+                                    <polyline points="9 18 15 12 9 6"></polyline>
+                                </svg>
+                            </div>
+                        </a>
+
+                        <ul class="collapse submenu list-unstyled" id="Test-Culutre" data-parent="#accordionExample">
+                            @can('view_category')
+                                <li>
+                                    <a href="{{ route('admin.categories.index') }}"> {{ __('Categories') }} </a>
+                                </li>
+                            @endcan
+                            @can('view_test')
+                                {{--  <li>
+                        <a href=""> {{ __('Sample Type') }} </a>
+                    </li>  --}}
+                                <li>
+                                    <a href="{{ route('admin.tests.index') }}"> {{ __('Tests') }} </a>
+                                </li>
+                            @endcan
+                            @can('view_culture')
+                                <li>
+                                    <a href="{{ route('admin.cultures.index') }}"> {{ __('Culture') }} </a>
+                                </li>
+                            @endcan
+
+                            @can('view_culture_option')
+                                <li>
+                                    <a href="{{ route('admin.culture_options.index') }}"> {{ __('Culture options') }}
+                                    </a>
+                                </li>
+                            @endcan
+                            @can('view_antibiotic')
+                                <li>
+                                    <a href="{{ route('admin.antibiotics.index') }}"> {{ __('Antibiotics') }} </a>
+                                </li>
+                            @endcan
+                            @can('view_package')
+                                <li>
+                                    <a href="{{ route('admin.packages.index') }}"> {{ __('Packages') }} </a>
+                                </li>
+                            @endcan
+
+
+                        </ul>
+                    </li>
+                @endcan
+
+                 @if($branch_rays)
+                    @can('view_test')
+                      <li class="menu">
+                        <a href="#rays" data-toggle="collapse" aria-expanded="true" class="dropdown-toggle">
+                     <div class="">
+                                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                                    version="1.1" id="Layer_1" x="0px" y="0px" viewBox="0 0 512 512"
+                                    style="enable-background:new 0 0 512 512;" xml:space="preserve">
+                                    <path style="fill:#82C8DB;"
+                                        d="M421.067,463.618L315.914,169.68V8.987h-44.664L249.463,169.68l98.043,334.967h44.664  C416.136,504.647,429.139,486.184,421.067,463.618z" />
+                                    <path style="fill:#A3DDE9;"
+                                        d="M376.403,463.618l-0.911-2.547l-53.004-80.274l0.394-66.79L271.251,169.68V8.987h-75.166V169.68  L90.932,463.618c-8.072,22.566,4.932,41.029,28.897,41.029h227.677C371.472,504.647,384.476,486.184,376.403,463.618z" />
+                                    <polygon style="fill:#419EBE;"
+                                        points="307.27,314.009 191.296,314.009 138.685,461.072 338.837,461.072 338.837,406.604 " />
+                                    <polygon style="fill:#146A8A;"
+                                        points="322.882,314.009 295.287,314.009 326.854,461.072 375.493,461.072 " />
+                                    <path
+                                        d="M360.768,399.357c-1.52-4.249-6.193-6.463-10.445-4.94c-4.249,1.52-6.461,6.196-4.94,10.445l16.893,47.224l-212.554-0.001  l46.764-130.722h119.026l18.862,52.728c1.519,4.247,6.191,6.461,10.445,4.94c4.249-1.52,6.461-6.196,4.94-10.445l-20.8-58.146  c-1.162-3.25-4.242-5.418-7.693-5.418H190.732c-3.451,0-6.531,2.169-7.693,5.418l-52.61,147.062  c-0.895,2.502-0.517,5.285,1.013,7.457c1.531,2.173,4.022,3.465,6.68,3.465l235.754,0.002c2.657,0,5.149-1.292,6.68-3.465  c1.531-2.173,1.908-4.954,1.013-7.457L360.768,399.357z" />
+                                    <path
+                                        d="M428.759,460.049L324.085,167.446V16.34h13.617c4.512,0,8.17-3.658,8.17-8.17S342.214,0,337.702,0H174.297  c-4.512,0-8.17,3.658-8.17,8.17s3.658,8.17,8.17,8.17h13.617v151.105L83.24,460.049c-4.755,13.292-3.498,26.572,3.448,36.433  C93.632,506.344,105.712,512,119.829,512h272.34c14.117,0,26.197-5.656,33.143-15.518  C432.258,486.621,433.515,473.342,428.759,460.049z M411.954,487.073c-3.9,5.537-10.926,8.586-19.784,8.586h-272.34  c-8.858,0-15.884-3.049-19.784-8.586c-3.9-5.537-4.404-13.179-1.422-21.519l105.153-293.938c0.316-0.883,0.477-1.814,0.477-2.752  V16.34h103.489v152.523c0,0.938,0.161,1.868,0.477,2.752l105.153,293.938C416.358,473.894,415.854,481.536,411.954,487.073z" />
+                                </svg>
+                                <span>{{ __('Rays') }} </span>
+                            </div>
+                            <div>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                    stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right">
+                                    <polyline points="9 18 15 12 9 6"></polyline>
+                                </svg>
+                            </div>
+                        </a>
+
+                        <ul class="collapse submenu list-unstyled" id="rays" data-parent="#accordionExample">
+                            @can('view_category')
+                                <li>
+                                    <a href="{{ route('admin.rays_categories.index') }}"> {{ __('Rays Categroies') }} </a>
+                                </li>
+                            @endcan
+                            @can('view_test')
+                                <li>
+                                    <a href="{{ route('admin.rays.index') }}"> {{ __('Rays') }} </a>
+                                </li>
+                            @endcan
+                   </ul>
+                    </li>
+                @endcan
+                @endif
+                {{-- Price Lists --}}
+                @canany(['view_test_prices', 'view_culture_prices', 'view_package_prices'])
+                    <li class="menu">
+                        <a href="#Price-Lists" data-toggle="collapse" aria-expanded="true" class="dropdown-toggle">
+                            <div class="">
+                                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                                    version="1.1" id="Layer_1" x="0px" y="0px" viewBox="0 0 512 512"
+                                    style="enable-background:new 0 0 512 512;" xml:space="preserve">
+                                    <path style="fill:#E2E2E2;"
+                                        d="M256,512c141.392,0,256-114.608,256-256S397.392,0,256,0S0,114.608,0,256S114.608,512,256,512z" />
+                                    <path style="fill:#ED1C24;"
+                                        d="M512,256.048L388,94.96H0v322.096l387.568-0.48L512,256.048z M206.48,342.496H62.928v-24H206.48  C206.48,318.496,206.48,342.496,206.48,342.496z M297.168,265.168H62.928v-24h234.24V265.168z M297.168,187.824H62.928v-24h234.24  V187.824z M360.064,256.16c0-15.44,12.512-27.968,27.936-27.968s27.936,12.512,27.936,27.968c0,15.44-12.512,27.968-27.936,27.968  S360.064,271.616,360.064,256.16z" />
+                                    <g>
+                                        <circle style="fill:#FFFFFF;" cx="388" cy="256" r="27.952" />
+                                        <rect x="62.928" y="241.12" style="fill:#FFFFFF;" width="234.24"
+                                            height="24" />
+                                        <rect x="62.928" y="318.496" style="fill:#FFFFFF;" width="143.552"
+                                            height="24" />
+                                        <rect x="62.928" y="163.824" style="fill:#FFFFFF;" width="234.24"
+                                            height="24" />
+                                    </g>
+                                </svg>
+                                <span>{{ __('Price Lists') }} </span>
+                            </div>
+                            <div>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                    stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right">
+                                    <polyline points="9 18 15 12 9 6"></polyline>
+                                </svg>
+                            </div>
+                        </a>
+
+                        <ul class="collapse submenu list-unstyled" id="Price-Lists" data-parent="#accordionExample">
+                            @can('view_test_prices')
+                                <li>
+                                    <a href="{{ route('admin.prices.tests') }}"> {{ __('Tests') }} </a>
+                                </li>
+                            @endcan
+
+                            @can('view_culture_prices')
+                                <li>
+                                    <a href="{{ route('admin.prices.cultures') }}"> {{ __('Cultures') }} </a>
+                                </li>
+                            @endcan
+
+                            @can('view_package_prices')
+                                <li>
+                                    <a href="{{ route('admin.prices.packages') }}">{{ __('Packages') }} </a>
+                                </li>
+                            @endcan
+                            @can('view_contract')
+                                <li>
+                                    <a href="{{ route('admin.contract_prices') }}"> {{ __('Contract Prices') }}
+                                    </a>
+                                </li>
+                            @endcan
+
+                        </ul>
+                    </li>
+                @endcan
+                {{-- Contracts --}}
+                @canany('view_contract', 'view_doctor') <li class="menu">
+                        <a href="#contracts" data-toggle="collapse" aria-expanded="true" class="dropdown-toggle">
+                            <div class="">
+                                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                                    version="1.1" id="Layer_1" x="0px" y="0px" viewBox="0 0 512 512"
+                                    style="enable-background:new 0 0 512 512;" xml:space="preserve">
+                                    <circle style="fill:#FF7F4F;" cx="256" cy="256" r="256" />
+                                    <path style="fill:#DD562C;"
+                                        d="M512,256c0-10.23-0.619-20.313-1.786-30.23L369.778,85.333L142.222,398.222L256,512l0,0  C397.384,512,512,397.384,512,256z" />
+                                    <rect x="142.222" y="85.333" style="fill:#FFEDB5;" width="227.556"
+                                        height="312.889" />
+                                    <rect x="255.431" y="85.333" style="fill:#FEE187;" width="114.347"
+                                        height="312.889" />
+                                    <g>
+                                        <rect x="170.667" y="139.636" style="fill:#263A7A;" width="170.667"
+                                            height="5.172" />
+                                        <rect x="170.667" y="168.081" style="fill:#263A7A;" width="170.667"
+                                            height="5.172" />
+                                        <rect x="170.667" y="196.525" style="fill:#263A7A;" width="170.667"
+                                            height="5.172" />
+                                        <rect x="170.667" y="224.97" style="fill:#263A7A;" width="170.667"
+                                            height="5.172" />
+                                        <rect x="170.667" y="253.414" style="fill:#263A7A;" width="170.667"
+                                            height="5.172" />
+                                        <rect x="170.667" y="281.859" style="fill:#263A7A;" width="170.667"
+                                            height="5.172" />
+                                        <rect x="170.667" y="310.303" style="fill:#263A7A;" width="56.889"
+                                            height="5.172" />
+                                        <path style="fill:#263A7A;"
+                                            d="M358.097,363.656l-34.673-17.315l90.605-181.448c4.467-8.944,15.336-12.574,24.281-8.108   l2.286,1.141c8.944,4.467,12.574,15.338,8.108,24.281L358.097,363.656z" />
+                                    </g>
+                                    <path style="fill:#121149;"
+                                        d="M440.592,157.929l-1.339-0.669l-99.076,197.449l17.92,8.949l90.605-181.448  C453.167,173.265,449.536,162.394,440.592,157.929z" />
+                                    <polygon style="fill:#FFC61B;"
+                                        points="358.097,363.656 329.331,377.885 323.422,346.343 " />
+                                    <polygon style="fill:#D48B07;"
+                                        points="329.118,376.746 329.331,377.885 358.097,363.656 340.177,354.709 " />
+                                </svg>
+                                <span>{{ __('Contracts') }} </span>
+                            </div>
+                            <div>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                    stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right">
+                                    <polyline points="9 18 15 12 9 6"></polyline>
+                                </svg>
+                            </div>
+                        </a>
+
+                        <ul class="collapse submenu list-unstyled" id="contracts" data-parent="#accordionExample">
+
+                            <li>
+                                <a href="{{ route('admin.governments.index') }}"> {{ __('Gov. & Regions') }}</a>
+                            </li>
+
+                            <li>
+                                <a href="{{ route('admin.contracts.index') }}"> {{ __('Contracts') }} </a>
+                            </li>
+
+                            <li>
+                                <a href="{{ route('admin.labs.index') }}">{{ __('Lab to Lab') }} </a>
+                            </li>
+                            <li>
+                                <a href="{{ route('admin.send_to_lab.index') }}">{{ __('Send Tests To Lab') }} </a>
+                            </li>
+                            <li>
+                                <a href="{{ route('admin.doctors.index') }}">{{ __('Doctors') }} </a>
+                            </li>
+
+
+                        </ul>
+                    </li>
+                @endcan
+
+                {{-- User & Roles --}}
+                @canany(['view_user', 'view_role'])
+                    <li class="menu">
+                        <a href="#User-roles" data-toggle="collapse" aria-expanded="true" class="dropdown-toggle">
+                            <div class="">
+                                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                                    version="1.1" id="Layer_1" x="0px" y="0px" viewBox="0 0 512 512"
+                                    style="enable-background:new 0 0 512 512;" xml:space="preserve">
+                                    <path style="fill:#333333;"
+                                        d="M281.04,129.588V114.62c24.424-13.832,33.008-44.84,19.176-69.256  c-13.832-24.424-44.84-33.008-69.256-19.176s-33.008,44.84-19.176,69.256c4.536,8.016,11.168,14.64,19.176,19.176v14.968  c-47.352,2.216-71.432,34.232-71.432,55.752v17.672h192.944v-17.64C352.472,163.852,328.392,131.836,281.04,129.588z" />
+                                    <path style="fill:#E21B1B;"
+                                        d="M121.512,418.996v-15.008c24.424-13.832,33.008-44.84,19.176-69.256  c-13.832-24.424-44.84-33.008-69.256-19.176c-24.424,13.832-33.008,44.84-19.176,69.256c4.536,8.016,11.168,14.64,19.176,19.176v15  C24.08,421.212,0,453.228,0,474.748v17.672h192.944v-17.672C192.944,453.228,168.864,421.212,121.512,418.996z" />
+                                    <path style="fill:#999999;"
+                                        d="M440.568,418.996v-15.008c24.424-13.832,33.008-44.84,19.176-69.256  c-13.832-24.424-44.84-33.008-69.256-19.176s-33.008,44.84-19.176,69.256c4.536,8.016,11.168,14.64,19.176,19.176v15  c-47.352,2.216-71.432,34.232-71.432,55.752v17.672H512v-17.664C512,453.228,487.92,421.212,440.568,418.996z" />
+                                    <path style="fill:#333333;"
+                                        d="M256,275.276c-23.176,0-41.968,18.792-41.968,41.968s18.792,41.968,41.968,41.968  s41.968-18.792,41.968-41.968l0,0C297.96,294.068,279.176,275.276,256,275.276z M256,342.58c-13.992,0-25.336-11.344-25.336-25.336  s11.344-25.336,25.336-25.336s25.336,11.344,25.336,25.336l0,0C281.336,331.236,269.992,342.58,256,342.58L256,342.58z" />
+                                    <path style="fill:#E21B1B;"
+                                        d="M342.472,330.204v-25.928l-19.2-1.92c-1.736-7.856-4.84-15.336-9.176-22.112l12.232-14.944  L308,246.964l-14.928,12.224c-6.776-4.344-14.272-7.464-22.128-9.208l-1.92-19.152h-26.04l-1.92,19.152  c-7.864,1.744-15.36,4.864-22.136,9.208L204,246.972l-18.336,18.336l12.224,14.944c-4.336,6.784-7.44,14.272-9.176,22.136  l-19.2,1.92v25.928l19.2,1.92c1.736,7.856,4.848,15.352,9.184,22.128l-12.224,14.944L204,387.524l14.928-12.216  c6.784,4.352,14.28,7.472,22.144,9.208l1.92,19.152h26.032l1.92-19.152c7.864-1.744,15.36-4.864,22.136-9.216L308,387.524  l18.336-18.336l-12.232-14.952c4.336-6.768,7.44-14.256,9.168-22.104L342.472,330.204z M256,359.188  c-23.176,0-41.968-18.792-41.968-41.968s18.792-41.968,41.968-41.968s41.968,18.792,41.968,41.968l0,0  C297.96,340.396,279.176,359.18,256,359.188z" />
+                                </svg>
+                                <span>{{ __('Users & Roles') }} </span>
+                            </div>
+                            <div>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                    stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right">
+                                    <polyline points="9 18 15 12 9 6"></polyline>
+                                </svg>
+                            </div>
+                        </a>
+
+                        <ul class="collapse submenu list-unstyled" id="User-roles" data-parent="#accordionExample">
+                            @can('view_role')
+                                <li>
+                                    <a href="{{ route('admin.roles.index') }}"> {{ __('Roles') }}</a>
+                                </li>
+                            @endcan
+
+                            @can('view_user')
+                                <li>
+                                    <a href="{{ route('admin.users.index') }}"> {{ __('Users') }}</a>
+                                </li>
+                            @endcan
+                        </ul>
+                    </li>
+                @endcan
+                {{-- HR --}}
+                @can('view_hr')
+                    <li class="menu">
+                        <a href="#hr" data-toggle="collapse" aria-expanded="true" class="dropdown-toggle">
+                            <div class="">
+                                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                                    version="1.1" id="Layer_1" x="0px" y="0px" viewBox="0 0 512 512"
+                                    style="enable-background:new 0 0 512 512;" xml:space="preserve">
+                                    <path style="fill:#FFBAA8;"
+                                        d="M67.155,244.034H55.649c-14.112,0-25.554-11.44-25.554-25.554v-24.344  c0-14.112,11.44-25.554,25.554-25.554h11.506c12.598,0,22.809,10.213,22.809,22.809v29.832  C89.965,233.821,79.753,244.034,67.155,244.034z" />
+                                    <path style="fill:#0BBBDA;"
+                                        d="M109.541,330.996H10.52V283.9c0-22.017,17.849-39.866,39.866-39.866h19.288  c22.017,0,39.866,17.849,39.866,39.866V330.996z" />
+                                    <path style="fill:#FFBAA8;"
+                                        d="M431.278,244.034h-11.506c-14.113,0-25.554-11.44-25.554-25.554v-24.344  c0-14.112,11.44-25.554,25.554-25.554h11.506c12.598,0,22.809,10.213,22.809,22.809v29.832  C454.089,233.821,443.876,244.034,431.278,244.034z" />
+                                    <g>
+                                        <path style="fill:#0BBBDA;"
+                                            d="M473.664,330.996h-99.021V283.9c0-22.017,17.849-39.866,39.866-39.866h19.288   c22.017,0,39.866,17.849,39.866,39.866V330.996z" />
+                                        <path style="fill:#0BBBDA;"
+                                            d="M151.621,369.054v-56.282c0-32.391,29.553-49.181,62.115-49.181h56.713   c32.562,0,62.115,16.79,62.115,49.181v56.282H151.621z" />
+                                    </g>
+                                    <path style="fill:#FFBAA8;"
+                                        d="M245.511,263.591h-6.838c-21.643,0-34.979-17.544-34.979-39.187v-18.41  c0-21.643,13.336-39.187,34.979-39.187h6.838c21.643,0,34.979,17.544,34.979,39.187v18.41  C280.49,246.046,267.154,263.591,245.511,263.591z" />
+                                    <g>
+                                        <polygon style="fill:#ECF0F1;"
+                                            points="275.685,263.591 242.092,316.366 208.499,263.591  " />
+                                        <path style="fill:#ECF0F1;"
+                                            d="M378.611,328.575c16.776-25.629,26.54-56.262,26.54-89.18c0-90.055-73.004-163.059-163.059-163.059   S79.033,149.341,79.033,239.396s73.004,163.059,163.059,163.059c31.919,0,61.689-9.18,86.833-25.03l123.286,123.286l49.268-49.268   L378.611,328.575z M242.092,355.115c-63.808,0-115.719-51.912-115.719-115.719s51.912-115.719,115.719-115.719   s115.719,51.912,115.719,115.719S305.9,355.115,242.092,355.115z" />
+                                    </g>
+                                    <g>
+                                        <path style="fill:#231F20;"
+                                            d="M508.919,444.004L406.43,341.516h67.234c5.809,0,10.52-4.711,10.52-10.52v-47.097   c0-18.725-10.276-35.086-25.477-43.771c3.717-5.376,5.902-11.889,5.902-18.905v-29.831c0-18.378-14.952-33.329-33.33-33.329   h-11.506c-7.815,0-15.049,2.509-20.963,6.749c-27.947-58.489-87.689-98.996-156.719-98.996   c-68.639,0-128.097,40.049-156.243,98.005c-5.336-3.629-11.769-5.758-18.694-5.758H55.649c-19.891,0-36.074,16.183-36.074,36.073   v24.344c0,7.877,2.545,15.168,6.846,21.107C10.699,248.124,0,264.786,0,283.899v47.097c0,5.809,4.71,10.52,10.52,10.52h91.305   c31.596,43.28,82.699,71.459,140.268,71.459c29.986,0,59.261-7.693,85.186-22.32l117.494,117.495   c2.055,2.053,4.747,3.081,7.439,3.081s5.384-1.028,7.439-3.081l49.268-49.268C513.027,454.773,513.027,448.112,508.919,444.004z    M463.144,320.476h-67.571c10.825-20.448,17.412-42.808,19.419-65.922h18.805c16.182,0,29.346,13.165,29.346,29.346V320.476z    M419.773,179.103h11.506c6.776,0,12.29,5.512,12.29,12.289v29.831c0,6.776-5.513,12.29-12.29,12.29h-11.506   c-1.472,0-2.891-0.222-4.236-0.618c-0.605-16.344-3.478-32.114-8.317-47.01C409.911,181.804,414.53,179.103,419.773,179.103z    M40.615,194.136c0-8.29,6.744-15.033,15.034-15.033h11.506c4.264,0,8.025,2.184,10.23,5.49   c-5.147,15.432-8.178,31.821-8.757,48.823c-0.484,0.058-0.973,0.097-1.473,0.097H55.649c-8.29,0-15.034-6.744-15.034-15.034   C40.615,218.479,40.615,194.136,40.615,194.136z M21.04,320.476v-36.577c0-16.182,13.165-29.346,29.346-29.346h18.796   c2.055,23.638,8.865,45.932,19.471,65.922H21.04V320.476z M452.211,485.833L336.363,369.985c-2.031-2.03-4.725-3.081-7.442-3.081   c-1.934,0-3.88,0.531-5.607,1.621c-24.293,15.315-52.379,23.409-81.222,23.409c-84.11,0-152.539-68.429-152.539-152.539   S157.982,86.856,242.092,86.856s152.539,68.429,152.539,152.539c0,29.765-8.583,58.611-24.822,83.419   c-2.728,4.168-2.159,9.677,1.363,13.2l115.429,115.429L452.211,485.833z" />
+                                        <path style="fill:#231F20;"
+                                            d="M242.092,113.156c-69.608,0-126.239,56.631-126.239,126.239s56.631,126.239,126.239,126.239   s126.239-56.631,126.239-126.239S311.7,113.156,242.092,113.156z M242.092,134.196c58.008,0,105.199,47.191,105.199,105.199   c0,16.732-3.933,32.561-10.913,46.62c-9.544-17.402-28.698-29.24-53.462-32.206c5.151-8.074,8.094-18.13,8.094-29.405v-18.41   c0-28.803-19.135-49.707-45.499-49.707h-6.838c-26.364,0-45.499,20.904-45.499,49.707v18.41c0,11.275,2.943,21.331,8.094,29.405   c-24.764,2.967-43.919,14.805-53.462,32.206c-6.98-14.06-10.913-29.888-10.913-46.62   C136.893,181.388,184.085,134.196,242.092,134.196z M214.214,224.405v-18.41c0-14.268,7.563-28.667,24.459-28.667h6.838   c16.896,0,24.459,14.399,24.459,28.667v18.41c0,14.268-7.563,28.667-24.459,28.667h-6.838   C221.777,253.072,214.214,238.673,214.214,224.405z M256.519,274.111l-14.427,22.664l-14.426-22.664H256.519z M242.092,344.595   c-31.805,0-60.356-14.188-79.663-36.566c2.466-19.947,20.521-30.536,40.74-33.219l30.048,47.207   c1.931,3.034,5.279,4.871,8.875,4.871c3.597,0,6.944-1.837,8.875-4.871l30.048-47.207c20.219,2.683,38.275,13.272,40.741,33.219   C302.448,330.406,273.897,344.595,242.092,344.595z" />
+                                        <path style="fill:#231F20;"
+                                            d="M242.092,41.797c5.809,0,10.52-4.711,10.52-10.52V11.289c0-5.809-4.711-10.52-10.52-10.52   c-5.81,0-10.52,4.711-10.52,10.52v19.988C231.572,37.086,236.282,41.797,242.092,41.797z" />
+                                        <path style="fill:#231F20;"
+                                            d="M336.158,67.001c1.657,0.956,3.465,1.412,5.249,1.412c3.636,0,7.172-1.887,9.121-5.262l9.994-17.311   c2.906-5.032,1.181-11.466-3.85-14.37c-5.034-2.906-11.467-1.18-14.37,3.85l-9.994,17.311   C329.402,57.663,331.126,64.097,336.158,67.001z" />
+                                        <path style="fill:#231F20;"
+                                            d="M133.656,63.15c1.948,3.375,5.484,5.262,9.12,5.262c1.784,0,3.594-0.456,5.251-1.412   c5.032-2.905,6.756-9.339,3.85-14.37l-9.994-17.311c-2.906-5.032-9.339-6.757-14.37-3.85c-5.032,2.905-6.756,9.339-3.85,14.37   L133.656,63.15z" />
+                                    </g>
+                                </svg>
+                                <span>{{ __('HR & Employees') }} </span>
+                            </div>
+                            <div>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                    stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right">
+                                    <polyline points="9 18 15 12 9 6"></polyline>
+                                </svg>
+                            </div>
+                        </a>
+
+                        <ul class="collapse submenu list-unstyled" id="hr" data-parent="#accordionExample">
+                            @can('view_hr')
+                                <li>
+                                    <a href="{{ route('admin.employees.index') }}"> {{ __('Employees') }}</a>
+                                </li>
+                            @endcan
+
+                            @can('view_violations')
+                                <li>
+                                    <a href="{{ route('admin.violations.index') }}"> {{ __('Violations') }}</a>
+                                </li>
+                            @endcan
+                            @can('view_hr')
+                                <li>
+                                    <a href="{{ route('admin.vocations.index') }}"> {{ __('Vocations Request') }}</a>
+                                </li>
+                            @endcan
+                            @can('view_hr')
+                                <li>
+                                    <a href="{{ route('admin.attendance.index') }}"> {{ __('Attendance') }}</a>
+                                </li>
+                            @endcan
+                        </ul>
+                    </li>
+                @endcan
+
+                {{-- Stock --}}
+                @canAny(['view_supplier', 'view_products', 'view_purchases', 'view_adjustments', 'view_transfers'])
+                    <li class="menu">
+                        <a href="#Inventory" data-toggle="collapse" aria-expanded="true" class="dropdown-toggle">
+                            <div class="">
+                                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                                    version="1.1" id="Layer_1" x="0px" y="0px" viewBox="0 0 512 512"
+                                    style="enable-background:new 0 0 512 512;" xml:space="preserve">
+                                    <path style="fill:#F28838;"
+                                        d="M240.488,0h-11.122h-13.336h-11.124h-68.539h-11.122h-13.336h-11.124  c-3.489,0-6.318,2.829-6.318,6.319v85.305c0,3.489,2.828,6.319,6.318,6.319h11.124h13.336h11.122h68.539h11.124h13.336h11.122  c3.492,0,6.32-2.829,6.32-6.319V6.319C246.806,2.829,243.978,0,240.488,0z" />
+                                    <path style="fill:#EF711D;"
+                                        d="M116.726,91.622V6.319c0-3.489,2.828-6.319,6.318-6.319h-11.137h-11.124  c-3.489,0-6.318,2.829-6.318,6.319v85.305c0,3.489,2.828,6.319,6.318,6.319h11.124h11.137  C119.554,97.941,116.726,95.112,116.726,91.622z" />
+                                    <path style="fill:#CCC3A8;"
+                                        d="M429.279,187.022h-0.002H256.485h-0.002c-5.344,0-9.676,4.333-9.676,9.677v92.692v27.826v96.84  v88.265c0,5.344,4.333,9.677,9.676,9.677h63.302h46.191h63.302c5.344,0,9.676-4.334,9.676-9.677v-88.265v-96.84v-27.826V196.7  C438.954,191.356,434.621,187.022,429.279,187.022z" />
+                                    <path style="fill:#F28838;"
+                                        d="M505.68,414.058h-11.124h-13.334h-11.124h-68.539h-11.124h-13.334h-11.124  c-3.489,0-6.32,2.83-6.32,6.32v85.305c0,3.489,2.83,6.318,6.32,6.318h11.124h13.334h11.124h68.539h11.124h13.334h11.124  c3.489,0,6.32-2.828,6.32-6.318v-85.305C512,416.888,509.169,414.058,505.68,414.058z" />
+                                    <path style="fill:#EA6428;"
+                                        d="M240.488,0h-11.122h-13.336h-11.124h-68.539h-11.122h-13.336h-11.124  c-3.489,0-6.318,2.829-6.318,6.319v28.123h152.339V6.319C246.806,2.829,243.978,0,240.488,0z" />
+                                    <path style="fill:#DD4D14;"
+                                        d="M116.726,6.319c0-3.489,2.828-6.319,6.318-6.319h-11.137h-11.124c-3.489,0-6.318,2.829-6.318,6.319  v28.123h22.261V6.319z" />
+                                    <path style="fill:#4BAF78;"
+                                        d="M210.737,512h22.713c7.376,0,13.357-5.979,13.357-13.357V318.327c0-7.376-5.98-13.357-13.357-13.357  H13.357C5.98,304.971,0,310.951,0,318.327v180.316C0,506.021,5.98,512,13.357,512H182.17" />
+                                    <path style="fill:#FFB92E;"
+                                        d="M246.806,111.298c0-7.376-5.98-13.357-13.357-13.357H13.357C5.98,97.941,0,103.922,0,111.298v180.316  c0,7.377,5.98,13.357,13.357,13.357H233.45c7.376,0,13.357-5.979,13.357-13.357V111.298z" />
+                                    <path style="fill:#C9B585;"
+                                        d="M269.067,502.323v-88.265v-96.84v-27.826V196.7c0-5.345,4.333-9.677,9.676-9.677h-22.259h-0.002  c-5.344,0-9.676,4.333-9.676,9.677v92.691v27.826v96.84v88.265c0,5.344,4.333,9.677,9.676,9.677h22.261  C273.4,512,269.067,507.666,269.067,502.323z" />
+                                    <path style="fill:#EF711D;"
+                                        d="M381.917,505.681v-85.305c0-3.489,2.83-6.32,6.32-6.32H377.1h-11.124c-3.489,0-6.32,2.83-6.32,6.32  v85.305c0,3.489,2.83,6.318,6.32,6.318H377.1h11.137C384.748,511.999,381.917,509.171,381.917,505.681z" />
+                                    <path style="fill:#299956;"
+                                        d="M22.261,498.643V318.327c0-7.376,5.98-13.357,13.357-13.357H13.357C5.98,304.971,0,310.951,0,318.327  v180.316C0,506.021,5.98,512,13.357,512h22.261C28.241,512,22.261,506.021,22.261,498.643z" />
+                                    <path style="fill:#EF9A1D;"
+                                        d="M22.261,291.614V111.298c0-7.376,5.98-13.357,13.357-13.357H13.357C5.98,97.941,0,103.922,0,111.298  v180.316c0,7.377,5.98,13.357,13.357,13.357h22.261C28.241,304.971,22.261,298.991,22.261,291.614z" />
+                                    <g>
+                                        <path style="fill:#7C7A75;"
+                                            d="M88.9,97.941v103.514c0,2.134,1.22,4.079,3.14,5.009c1.921,0.93,4.203,0.681,5.877-0.643   l25.486-20.146l25.489,20.146c1.001,0.792,2.222,1.2,3.452,1.2c0.825,0,1.654-0.183,2.425-0.557   c1.92-0.929,3.139-2.875,3.139-5.009V97.941H88.9z" />
+                                        <path style="fill:#7C7A75;"
+                                            d="M88.9,304.971v103.514c0,2.134,1.22,4.079,3.14,5.009c1.921,0.93,4.203,0.679,5.877-0.642   l25.486-20.147l25.489,20.147c1.001,0.791,2.222,1.199,3.452,1.199c0.825,0,1.654-0.184,2.425-0.557   c1.92-0.929,3.139-2.875,3.139-5.009V304.971H88.9z" />
+                                        <path style="fill:#7C7A75;"
+                                            d="M368.37,294.903c1.002,0.791,2.222,1.199,3.452,1.199c0.825,0,1.654-0.184,2.425-0.557   c1.92-0.929,3.139-2.875,3.139-5.009V187.022h-69.009v103.514c0,2.134,1.22,4.079,3.14,5.009c1.921,0.932,4.203,0.679,5.877-0.642   l25.486-20.147L368.37,294.903z" />
+                                    </g>
+                                    <path style="fill:#F9D19B;"
+                                        d="M211.828,250.372h-47.861c-4.611,0-8.348-3.738-8.348-8.348c0-4.61,3.736-8.348,8.348-8.348h47.861  c4.611,0,8.348,3.738,8.348,8.348C220.176,246.635,216.439,250.372,211.828,250.372z" />
+                                    <g>
+                                        <path style="fill:#FCA468;"
+                                            d="M462.47,487.451h-47.861c-4.61,0-8.348-3.736-8.348-8.348c0-4.611,3.738-8.348,8.348-8.348h47.861   c4.611,0,8.348,3.736,8.348,8.348C470.817,483.714,467.081,487.451,462.47,487.451z" />
+                                        <path style="fill:#FCA468;"
+                                            d="M196.452,73.399h-47.861c-4.61,0-8.348-3.738-8.348-8.348s3.738-8.348,8.348-8.348h47.861   c4.611,0,8.348,3.738,8.348,8.348S201.064,73.399,196.452,73.399z" />
+                                    </g>
+                                    <path style="fill:#F9D19B;"
+                                        d="M211.828,278.199h-47.861c-4.611,0-8.348-3.736-8.348-8.348c0-4.611,3.736-8.348,8.348-8.348h47.861  c4.611,0,8.348,3.736,8.348,8.348C220.176,274.462,216.439,278.199,211.828,278.199z" />
+                                    <g>
+                                        <path style="fill:#61C98D;"
+                                            d="M211.828,455.172h-47.861c-4.611,0-8.348-3.736-8.348-8.348c0-4.611,3.736-8.348,8.348-8.348h47.861   c4.611,0,8.348,3.736,8.348,8.348C220.176,451.436,216.439,455.172,211.828,455.172z" />
+                                        <path style="fill:#61C98D;"
+                                            d="M211.828,482.999h-47.861c-4.611,0-8.348-3.736-8.348-8.348c0-4.611,3.736-8.348,8.348-8.348h47.861   c4.611,0,8.348,3.736,8.348,8.348C220.176,479.262,216.439,482.999,211.828,482.999z" />
+                                    </g>
+                                    <path style="fill:#EA6428;"
+                                        d="M505.68,414.058h-11.124h-13.334h-11.124h-68.539h-11.124h-13.334h-11.124  c-3.489,0-6.32,2.83-6.32,6.32v28.124H512v-28.124C512,416.888,509.169,414.058,505.68,414.058z" />
+                                    <path style="fill:#DD4D14;"
+                                        d="M381.917,420.378c0-3.489,2.83-6.32,6.32-6.32H377.1h-11.124c-3.489,0-6.32,2.83-6.32,6.32v28.124  h22.261V420.378z" />
+                                    <g>
+                                        <path style="fill:#605E5A;"
+                                            d="M88.9,304.971v103.514c0,2.134,1.22,4.079,3.14,5.009c1.921,0.93,4.203,0.679,5.877-0.642   l25.486-20.147v-87.733H88.9z" />
+                                        <path style="fill:#605E5A;"
+                                            d="M88.9,97.941v103.514c0,2.134,1.22,4.079,3.14,5.009c1.921,0.93,4.203,0.681,5.877-0.643   l25.486-20.146V97.941H88.9z" />
+                                        <path style="fill:#605E5A;"
+                                            d="M342.882,187.022h-34.505v103.514c0,2.134,1.22,4.079,3.14,5.009   c1.921,0.932,4.203,0.679,5.877-0.642l25.486-20.147h0.001v-87.733H342.882z" />
+                                    </g>
+                                </svg>
+                                <span>{{ __('Inventory') }} </span>
+                            </div>
+                            <div>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                    stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right">
+                                    <polyline points="9 18 15 12 9 6"></polyline>
+                                </svg>
+                            </div>
+                        </a>
+
+                        <ul class="collapse submenu list-unstyled" id="Inventory" data-parent="#accordionExample">
+                            @can('view_supplier')
+                                <li>
+                                    <a href="{{ route('admin.inventory.suppliers.index') }}"> {{ __('Suppliers') }}</a>
+                                </li>
+                            @endcan
+
+                            @can('view_product')
+                                <li>
+                                    <a href="{{ route('admin.inventory.products.index') }}"> {{ __('Products') }}</a>
+                                </li>
+                            @endcan
+                            @can('view_product')
+                                <li>
+                                    <a href="{{ route('admin.fixed_assets.index') }}"> {{ __('Fixed Assets') }}</a>
+                                </li>
+                            @endcan
+                            @can('view_purchase')
+                                <li>
+                                    <a href="{{ route('admin.inventory.purchases.index') }}"> {{ __('Purchases') }}</a>
+                                </li>
+                            @endcan
+                            @can('view_adjustment')
+                                <li>
+                                    <a href="{{ route('admin.inventory.adjustments.index') }}"> {{ __('Adjustments') }}</a>
+                                </li>
+                            @endcan
+                            @can('view_transfer')
+                                <li>
+                                    <a href="{{ route('admin.inventory.transfers.index') }}"> {{ __('Transfers') }}</a>
+                                </li>
+                            @endcan
+                        </ul>
+                    </li>
+                @endcan
+
+                {{-- Accounting --}}
+                @canany(['view_payment_method', 'view_expense', 'view_expense_category'])
+
+                    <li class="menu">
+                        <a href="#Accounting" data-toggle="collapse" aria-expanded="true" class="dropdown-toggle">
+                            <div class="">
+                                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                                    width="512px" height="512px" viewBox="0 0 512 512" aria-hidden="true"
+                                    role="img" class="iconify iconify--fxemoji" preserveAspectRatio="xMidYMid meet">
+                                    <path fill="#7BD873"
+                                        d="M506.738 290.613c-160.397 4.842-221.783 156.007-382.18 160.85c-3.862.118-8.374-1.827-9.995-4.222L.139 278.138c-1.623-2.398.26-4.338 4.123-4.457c160.397-4.842 221.783-156.007 382.18-160.85c3.862-.118 8.374 1.827 9.995 4.222l114.424 169.103c1.622 2.398-.261 4.339-4.123 4.457z" />
+                                    <path fill="#597B91"
+                                        d="M125.504 298.766c9.077-2.174 17.369-2.709 25.456-1.735c2.29.272 3.78 2.107 3.321 4.058a789.532 789.532 0 0 1-2.398 9.853c-.454 1.821-2.529 3.074-4.765 2.885c-8.651-.727-16.369.363-24.132 3.241c-8.927 3.29-12.865 7.849-9.37 13.014c3.49 5.158 9.525 6.446 29.095 3.925c23.802-3.285 38.892-2.963 49.336 12.471c8.167 12.069 5.421 26.687-9.215 37.458c-1.45 1.055-1.801 2.736-.88 4.096l9.756 14.418c1.13 1.671.304 3.743-1.87 4.593a266.68 266.68 0 0 1-11.058 4.05c-2.233.763-4.981-.006-6.112-1.676l-9.029-13.344c-1.018-1.505-3.38-2.311-5.544-1.884c-13.74 2.708-26.803 1.286-38.061-1.952c-2.683-.774-4.922-1.435-4.064-2.967c1.863-3.35 3.672-6.78 5.429-10.286c1.159-2.32 2.917-1.669 5.336-1.112c10.499 2.404 20.583 2.42 30.181-.894c10.862-3.789 14.48-10.348 10.253-16.596c-4.147-6.128-9.61-6.875-28.233-5.092c-29.374 2.378-45.145-4.751-53.301-16.804c-8.212-12.136-1.08-22.507 14.475-30.581c1.679-.873 3.221-.961 2.267-2.371l-10.959-16.195c-1.131-1.672.935-1.912 3.168-2.675a266.68 266.68 0 0 0 11.058-4.05c2.174-.85 4.833-.213 5.965 1.459l8.811 13.022c.966 1.431 3.099 2.145 5.084 1.671z" />
+                                    <path fill="#597B91"
+                                        d="M354.603 352.147c-23.336 15.426-45.784 32.164-69.083 47.645c-5.437 3.617-12.534 2.576-15.776-2.217L153.036 225.097c-3.243-4.793-1.405-11.523 4.032-15.14c23.299-15.48 45.747-32.219 69.083-47.645c5.446-3.604 12.551-2.549 15.794 2.243l116.708 172.478c3.244 4.794 1.396 11.51-4.05 15.114z" />
+                                    <path fill="#C4F0F2"
+                                        d="M429.453 360.41c52.053 52.053 47.581 86.628 23.217 111.36c-24.591 24.963-60.583 29.288-80.142 9.73c-13.484-13.484-15.612-34.779-7.454-54.765c1.583-3.878-1.086-7.18-5.027-6.169c-13.153 3.376-26.304.925-35.096-7.867c-9.943-9.943-11.773-25.462-6.237-40.253c1.435-3.835-1.237-6.999-5.112-5.999c-11.34 2.927-22.686.522-29.805-7.711c-10.256-11.862-41.865-38.984-28.377-53.471c9.795-10.519 118.603-.285 174.033 55.145zM244.001 88.731C215.08 21.036 181.327 12.309 149.3 25.709c-32.326 13.524-49.745 45.317-38.878 70.752c7.492 17.536 26.463 27.442 48.049 27.314c4.188-.025 6.259 3.683 3.853 6.963c-8.032 10.949-10.655 24.067-5.771 35.501c5.525 12.931 19.245 20.409 35.034 20.78c4.093.096 6.035 3.754 3.663 6.978c-6.94 9.434-8.934 20.859-3.945 30.532c7.188 13.936 20.586 53.373 39.055 46.251c13.411-5.171 44.438-109.963 13.641-182.049z" />
+                                </svg>
+                                <span>{{ __('Accounting') }} </span>
+                            </div>
+                            <div>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                    stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right">
+                                    <polyline points="9 18 15 12 9 6"></polyline>
+                                </svg>
+                            </div>
+                        </a>
+
+                        <ul class="collapse submenu list-unstyled" id="Accounting" data-parent="#accordionExample">
+                            @can('view_payment_method')
+                                <li>
+
+                                    <a href="{{ route('admin.payment_methods.index') }}"> {{ __('Payment methods') }}</a>
+                                </li>
+                            @endcan
+
+                            @can('view_expense_category')
+                                <li>
+                                    <a href="{{ route('admin.expense_categories.index') }}">
+                                        {{ __('Expense Categories') }}</a>
+                                </li>
+                            @endcan
+
+                            @can('view_expense')
+                                <li>
+                                    <a href="{{ route('admin.expenses.index') }}"> {{ __('Expenses') }}</a>
+                                </li>
+                            @endcan
+
+                        </ul>
+                    </li>
+                @endcan
+
+                {{-- Reporting --}}
+                @canany(['view_accounting_report', 'view_doctor_report', 'view_supplier_report',
+                    'view_inventory_report'])
+                    <li class="menu">
+                        <a href="#Reporting" data-toggle="collapse" aria-expanded="true" class="dropdown-toggle">
+                            <div class="">
+                                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                                    version="1.1" id="Layer_1" x="0px" y="0px" viewBox="0 0 512 512"
+                                    style="enable-background:new 0 0 512 512;" xml:space="preserve">
+                                    <path style="fill:#E2DCBC;"
+                                        d="M460.8,406.905H51.2c-23.812,0-43.116-19.304-43.116-43.116V94.316  C8.084,70.504,27.388,51.2,51.2,51.2h409.6c23.812,0,43.116,19.304,43.116,43.116v269.474  C503.916,387.601,484.612,406.905,460.8,406.905z" />
+                                    <path style="fill:#F4EECB;"
+                                        d="M460.8,385.347H51.2c-11.906,0-21.558-9.651-21.558-21.558V94.316  c0-11.906,9.651-21.558,21.558-21.558h409.6c11.906,0,21.558,9.651,21.558,21.558v269.474  C482.358,375.696,472.706,385.347,460.8,385.347z" />
+                                    <path style="fill:#BFBBA3;"
+                                        d="M385.347,428.463H126.653c-11.906,0-21.558-9.651-21.558-21.558l0,0  c0-11.906,9.651-21.558,21.558-21.558h258.695c11.906,0,21.558,9.651,21.558,21.558l0,0  C406.905,418.812,397.254,428.463,385.347,428.463z" />
+                                    <path style="fill:#A3CCAA;"
+                                        d="M385.347,331.453h-97.011V29.642c0-11.906,9.651-21.558,21.558-21.558h53.895  c11.906,0,21.558,9.651,21.558,21.558V331.453z" />
+                                    <path style="fill:#80A886;"
+                                        d="M331.453,331.453h-97.011V148.211c0-11.906,9.651-21.558,21.558-21.558h53.895  c11.906,0,21.558,9.651,21.558,21.558V331.453z" />
+                                    <path style="fill:#FC8059;"
+                                        d="M309.895,331.453h-97.011v-204.8c0-11.906,9.651-21.558,21.558-21.558h53.895  c11.906,0,21.558,9.651,21.558,21.558V331.453z" />
+                                    <path style="fill:#BF5243;"
+                                        d="M256,331.453h-97.011v-86.232c0-11.906,9.651-21.558,21.558-21.558h53.895  c11.906,0,21.558,9.651,21.558,21.558V331.453z" />
+                                    <path style="fill:#FED766;"
+                                        d="M234.442,331.453h-97.011V223.663c0-11.906,9.651-21.558,21.558-21.558h53.895  c11.906,0,21.558,9.651,21.558,21.558V331.453z" />
+                                    <path style="fill:#4C4C4C;"
+                                        d="M460.8,43.116h-67.368V29.642C393.432,13.298,380.134,0,363.789,0h-53.895  c-16.344,0-29.642,13.298-29.642,29.642v13.474H51.2c-28.231,0-51.2,22.969-51.2,51.2v269.474c0,28.231,22.969,51.2,51.2,51.2  h46.932c3.527,12.428,14.978,21.558,28.521,21.558H204.8v59.284h-99.705c-4.465,0-8.084,3.618-8.084,8.084s3.62,8.084,8.084,8.084  h301.811c4.466,0,8.084-3.618,8.084-8.084s-3.618-8.084-8.084-8.084H307.2v-59.284h78.147c13.543,0,24.994-9.13,28.522-21.558h46.93  c28.231,0,51.2-22.969,51.2-51.2V94.316C512,66.085,489.031,43.116,460.8,43.116z M296.421,29.642  c0-7.43,6.044-13.474,13.474-13.474h53.895c7.43,0,13.474,6.044,13.474,13.474v293.726h-59.284V126.653  c0-13.543-9.13-24.994-21.558-28.522V29.642z M288.337,113.179c7.43,0,13.474,6.044,13.474,13.474v196.716h-59.284v-99.705  c0-13.543-9.13-24.994-21.558-28.522v-68.488c0-7.43,6.044-13.474,13.474-13.474H288.337z M226.358,223.663v99.705h-80.842v-99.705  c0-7.43,6.044-13.474,13.474-13.474h53.895C220.314,210.189,226.358,216.233,226.358,223.663z M291.032,495.832h-70.063v-59.284  h70.063V495.832z M385.347,420.379h-86.232H126.653c-7.43,0-13.474-6.044-13.474-13.474s6.044-13.474,13.474-13.474h258.695  c7.43,0,13.474,6.044,13.474,13.474S392.777,420.379,385.347,420.379z M495.832,363.789c0,19.317-15.715,35.032-35.032,35.032  h-46.93c-3.527-12.428-14.978-21.558-28.522-21.558H126.653c-13.544,0-24.994,9.13-28.521,21.558H51.2  c-19.316,0-35.032-15.715-35.032-35.032V94.316c0-19.317,15.716-35.032,35.032-35.032h229.053v37.726h-45.811  c-16.345,0-29.642,13.298-29.642,29.642v67.368h-45.811c-16.345,0-29.642,13.298-29.642,29.642v99.705h-51.2  c-4.465,0-8.084,3.618-8.084,8.084c0,4.466,3.62,8.084,8.084,8.084h324.138c4.466,0,8.084-3.618,8.084-8.084  c0-4.466-3.618-8.084-8.084-8.084h-8.854V59.284H460.8c19.317,0,35.032,15.715,35.032,35.032V363.789z M441.937,331.453  c0,4.466-3.618,8.084-8.084,8.084h-1.588c-4.466,0-8.084-3.618-8.084-8.084c0-4.466,3.618-8.084,8.084-8.084h1.588  C438.318,323.368,441.937,326.987,441.937,331.453z" />
+                                </svg>
+                                <span>{{ __('Reporting') }} </span>
+                            </div>
+                            <div>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                    stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right">
+                                    <polyline points="9 18 15 12 9 6"></polyline>
+                                </svg>
+                            </div>
+                        </a>
+
+                        <ul class="collapse submenu list-unstyled" id="Reporting" data-parent="#accordionExample">
+                            @can('view_accounting_report')
+                                <li>
+                                    <a href="{{ route('admin.reports.contract') }}">
+                                        {{ __('Contracts reports') }}</a>
+                                </li>
+                                <li>
+                                    <a href="{{ route('admin.reports.delayed_money') }}">
+                                        {{ __('Delayed Money') }}</a>
+                                </li>
+                            @endcan
+
+                            @can('view_accounting_report')
+                                <li>
+                                    <a href="{{ route('admin.reports.accounting') }}">
+                                        {{ __('Accounting report') }}</a>
+                                </li>
+                            @endcan
+
+                            @can('view_doctor_report')
+                                <li>
+                                    <a href="{{ route('admin.reports.doctor') }}">
+                                        {{ __('Doctor report') }}</a>
+                                </li>
+                                <li>
+                                    <a href="{{ route('admin.reports.normal_doctor') }}">
+                                        {{ __('Normal Doctor report') }}</a>
+                                </li>
+                            @endcan
+                            @can('view_supplier_report')
+                                <li>
+                                    <a href="{{ route('admin.reports.supplier') }}">
+                                        {{ __('Supplier report') }}</a>
+                                </li>
+                            @endcan
+                            @can('view_purchase_report')
+                                <li>
+                                    <a href="{{ route('admin.reports.purchase') }}">
+                                        {{ __('Purchases report') }}</a>
+                                </li>
+                            @endcan
+                            @can('view_inventory_report')
+                                <li>
+                                    <a href="{{ route('admin.reports.inventory') }}">
+                                        {{ __('Inventory report') }}</a>
+                                </li>
+                            @endcan
+                            @can('view_product_report')
+                                <li>
+                                    <a href="{{ route('admin.reports.product') }}">
+                                        {{ __('Products report') }}</a>
+                                </li>
+                            @endcan
+                            <li>
+                                <a href="{{ route('admin.reports.work_load_month') }}">
+                                    {{ __('Workload Monthly') }}</a>
+                            </li>
+                            <li>
+                                <a href="{{ route('admin.reports.work_load_day') }}">
+                                    {{ __('Workload Daily') }}</a>
+                            </li>
+                            <li>
+                                <a href="{{ route('admin.reports.testes_branch') }}">
+                                    {{ __('Testes Branch Report') }}</a>
+                            </li>
+                            <li>
+                                <a href="{{ route('admin.reports.contract_details') }}">
+                                    {{ __('Contract Report') }}</a>
+                            </li>
+                            <li>
+                                <a href="{{ route('admin.reports.expenses') }}">
+                                    {{ __('Expenses Report') }}</a>
+                            </li>
+                           
+                            @can('view_hr')
+                                <li>
+                                    <a href="{{ route('admin.reports.employee') }}">
+                                        {{ __('Employees report') }}
+                                    </a>
+                                </li>
+                            @endcan
+                            <li>
+                                <a href="{{ route('admin.reports.custody') }}">
+                                    {{ __('Custody report') }}
+                                </a>
+                            </li>
+
+                        </ul>
+                    </li>
+                @endcan
+                {{-- Mobile App --}}
+                @can(['view_setting'])
+                    <li class="menu">
+                        <a href="#mobile" data-toggle="collapse" aria-expanded="true" class="dropdown-toggle">
+                            <div class="">
+                                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                                    version="1.1" id="Layer_1" x="0px" y="0px"
+                                    viewBox="0 0 456.8 456.8" style="enable-background:new 0 0 456.8 456.8;"
+                                    xml:space="preserve">
+                                    <path style="fill:#E0CBB5;"
+                                        d="M196.4,232h-48c-4,0-8,4-8,8v80c0,4,4,8,8,8h48c4,0,8-4,8-8v-80C204.4,236,200.4,232,196.4,232z   M172.4,216c17.6,0,32-14.4,32-32s-14.4-32-32-32s-32,14.4-32,32S154.8,216,172.4,216z M204.4,96c0-4-4-8-8-8h-48c-4,0-8,4-8,8v32  c0,4,4,8,8,8h48c4,0,8-4,8-8V96z M124.4,80h208v280h-208V80z M308.4,104h-64v16h64V104z M308.4,176h-64v16h64V176z M308.4,240h-64  v16h64V240z M308.4,304h-64v16h64V304z" />
+                                    <path style="fill:#FF7D00;"
+                                        d="M342.8,16h-228c-8,0-14.4,6.4-14.4,14.4V368v58.4c0,8,6.4,14.4,14.4,14.4h113.6h114.4  c8,0,14.4-6.4,14.4-14.4V368V30.4C356.4,22.4,350,16,342.8,16z M268.4,32h24v16h-24V32z M172.4,32h80v16h-80V32z M228.4,432  c-13.6,0-24-11.2-24-24c0-13.6,10.4-24,24-24s24,10.4,24,24C252.4,420.8,242,432,228.4,432z M340.4,376h-112h-112c-4,0-8-4-8-8V72  c0-4,4-8,8-8h224c4,0,8,4,8,8v296C348.4,372,344.4,376,340.4,376z" />
+                                    <rect x="156.4" y="104" style="fill:#2FB4C2;" width="32"
+                                        height="16" />
+                                    <circle style="fill:#7AC943;" cx="172.4" cy="184" r="16" />
+                                    <rect x="156.4" y="248" style="fill:#EE5656;" width="32"
+                                        height="64" />
+                                    <g>
+                                        <rect x="244.4" y="304" style="fill:#42210B;" width="64"
+                                            height="16" />
+                                        <rect x="244.4" y="240" style="fill:#42210B;" width="64"
+                                            height="16" />
+                                        <rect x="244.4" y="176" style="fill:#42210B;" width="64"
+                                            height="16" />
+                                        <rect x="244.4" y="104" style="fill:#42210B;" width="64"
+                                            height="16" />
+                                        <rect x="268.4" y="32" style="fill:#42210B;" width="24"
+                                            height="16" />
+                                        <rect x="172.4" y="32" style="fill:#42210B;" width="80"
+                                            height="16" />
+                                        <path style="fill:#42210B;"
+                                            d="M228.4,416c4,0,8-4,8-8s-4-8-8-8s-8,4-8,8S224.4,416,228.4,416z M228.4,384c13.6,0,24,10.4,24,24   s-10.4,24-24,24c-12.8,0-24-10.4-24-24S215.6,384,228.4,384z" />
+                                        <path style="fill:#42210B;"
+                                            d="M188.4,184c0-8.8-7.2-16-16-16s-16,7.2-16,16s7.2,16,16,16S188.4,192.8,188.4,184z M172.4,152   c17.6,0,32,14.4,32,32s-14.4,32-32,32s-32-14.4-32-32S154.8,152,172.4,152z" />
+                                        <path style="fill:#42210B;"
+                                            d="M188.4,120v-16h-32v16H188.4z M204.4,96v32c0,4-4,8-8,8h-48c-4,0-8-4-8-8V96c0-4,4-8,8-8h48   C200.4,88,204.4,92,204.4,96z" />
+                                        <path style="fill:#42210B;"
+                                            d="M188.4,312v-64h-32v64H188.4z M204.4,240v80c0,4-4,8-8,8h-48c-4,0-8-4-8-8v-80c0-4,4-8,8-8h48   C200.4,232,204.4,236,204.4,240z" />
+                                        <path style="fill:#42210B;"
+                                            d="M332.4,360V80h-208v280H332.4z M228.4,376h-112c-4,0-8-4-8-8V72c0-4.8,4-8,8-8h224c4,0,8,3.2,8,8   v296c0,4-4,8-8,8H228.4z" />
+                                        <path style="fill:#42210B;"
+                                            d="M84.4,30.4C84.4,13.6,98,0,114.8,0h228c16,0,29.6,13.6,29.6,30.4v396c0,16.8-13.6,30.4-30.4,30.4   H114.8c-16.8,0-30.4-13.6-30.4-30.4C84.4,426.4,84.4,30.4,84.4,30.4z M114.8,440h113.6h114.4c8,0,14.4-6.4,14.4-14.4V368V30.4   c0-8-6.4-14.4-14.4-14.4h-228c-8,0-14.4,6.4-14.4,14.4V368v58.4C100.4,433.6,106.8,440,114.8,440z" />
+                                    </g>
+                                    <g>
+                                        <path style="fill:#FF9900;"
+                                            d="M108.4,72c0-4,4-8,8-8h224c4,0,8,4,8,8V40.8c0-9.6-7.2-16.8-16.8-16.8H125.2   c-9.6,0-16.8,7.2-16.8,16.8V72z M268.4,32h24v16h-24V32z M172.4,32h80v16h-80V32z" />
+                                        <path style="fill:#FF9900;"
+                                            d="M204.4,408c0-16,15.2-28,32-23.2c7.2,2.4,12.8,8,15.2,15.2c4.8,16-7.2,32-23.2,32h103.2   c8.8,0,16.8-7.2,16.8-16.8V368c0,4-4,8-8,8h-112h-112c-4,0-8-4-8-8v47.2c0,8.8,7.2,16.8,16.8,16.8h103.2   C214.8,432,204.4,420.8,204.4,408z" />
+                                    </g>
+                                    <path style="fill:#FFF8EF;"
+                                        d="M204.4,96v32c0,4-4,8-8,8h-48c-4,0-8-4-8-8V96c0-4,4-8,8-8h-4c-6.4,0-12,5.6-12,12v240.8  c0,6.4,5.6,12,12,12h168.8c6.4,0,12-5.6,12-12V100c0-6.4-5.6-12-12-12H196.4C200.4,88,204.4,92,204.4,96z M204.4,320c0,4-4,8-8,8  h-48c-4,0-8-4-8-8v-80c0-4,4-8,8-8h48c4,0,8,4,8,8V320z M172.4,216c-17.6,0-32-14.4-32-32s14.4-32,32-32s32,14.4,32,32  S190,216,172.4,216z M244.4,104h64v16h-64V104z M244.4,176h64v16h-64V176z M244.4,240h64v16h-64V240z M244.4,304h64v16h-64V304z" />
+                                </svg>
+                                <span>{{ __('Mobile Application') }} </span>
+                            </div>
+                            <div>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                    stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right">
+                                    <polyline points="9 18 15 12 9 6"></polyline>
+                                </svg>
+                            </div>
+                        </a>
+
+                        <ul class="collapse submenu list-unstyled" id="mobile" data-parent="#accordionExample">
+                            @can('view_setting')
+                                <li>
+
+                                    <a href="{{ route('admin.tips.index') }}"> {{ __('Tips And Offer') }}</a>
+                                </li>
+                            @endcan
+
+                            @can('view_setting')
+                                <li>
+                                    <a href="{{ route('admin.static_pages.index') }}"> {{ __('Static Page') }}</a>
+                                </li>
+                            @endcan
+
+                            @can('view_setting')
+                                <li>
+                                    <a href="{{ route('admin.sliders.index') }}"> {{ __('Sliders') }}</a>
+                                </li>
+                            @endcan
+
+                        </ul>
+                    </li>
+                @endcan
+
+                {{-- Visits --}}
+                @can('view_visit')
+                    <li class="menu">
+                        <a href="#visits" data-toggle="collapse" aria-expanded="true" class="dropdown-toggle">
+                            <div class="">
+                                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                                    version="1.1" id="Layer_1" x="0px" y="0px"
+                                    viewBox="0 0 512.213 512.213" style="enable-background:new 0 0 512.213 512.213;"
+                                    xml:space="preserve">
+                                    <g transform="translate(1 1)">
+                                        <path style="fill:#FFE100;"
+                                            d="M144.173,93.08v-51.2h17.067V7.747H58.84V41.88h17.067v110.933l-47.787,40.96   c-6.827,6.827-2.56,18.773,6.827,18.773h40.96v256H58.84v34.133h392.533v-34.133h-17.067v-256h40.96   c9.387,0,13.653-11.947,6.827-17.92L285.827,20.547c-17.067-16.213-44.373-16.213-61.44,0L144.173,93.08z" />
+                                        <path style="fill:#FFA800;"
+                                            d="M255.107,251.8c9.387-23.04,28.16-40.107,52.053-40.107c20.48,0,36.693,10.24,50.347,24.747   c17.92,18.773,25.6,63.147-7.68,96.427c-17.067,17.067-94.72,92.16-94.72,92.16s-77.653-75.093-93.867-92.16   c-33.28-33.28-25.6-76.8-7.68-96.427c13.653-14.507,29.867-24.747,50.347-24.747C227.8,211.693,246.573,229.613,255.107,251.8" />
+                                        <path
+                                            d="M451.373,511.213H58.84c-5.12,0-8.533-3.413-8.533-8.533v-34.133c0-5.12,3.413-8.533,8.533-8.533h8.533V221.08H34.947   c-7.68,0-15.36-5.12-17.92-11.947s-0.853-15.36,5.12-21.333l45.227-39.253V50.413H58.84c-5.12,0-8.533-3.413-8.533-8.533V7.747   c0-5.12,3.413-8.533,8.533-8.533h102.4c5.12,0,8.533,3.413,8.533,8.533V41.88c0,5.12-3.413,8.533-8.533,8.533h-8.533v23.04   l65.707-59.733c20.48-19.627,52.907-19.627,73.387,0L488.067,187.8c5.973,5.12,7.68,13.653,5.12,20.48   c-2.56,7.68-9.387,11.947-17.92,11.947H442.84V459.16h8.533c5.12,0,8.533,3.413,8.533,8.533v34.133   C459.907,507.8,456.493,511.213,451.373,511.213z M67.373,494.147H442.84V477.08h-8.533c-5.12,0-8.533-3.413-8.533-8.533v-256   c0-5.12,3.413-8.533,8.533-8.533h40.96c0,0,0.853,0,1.707-0.853c0.853-0.853,0-1.707-0.853-1.707L279.853,27.373   c-14.507-13.653-35.84-13.653-49.493,0l-80.213,73.387c-2.56,2.56-5.973,2.56-9.387,1.707c-3.413-2.56-5.12-5.973-5.12-9.387v-51.2   c0-5.12,3.413-8.533,8.533-8.533h8.533V16.28H67.373v17.067h8.533c5.12,0,8.533,3.413,8.533,8.533v110.933   c0,2.56-0.853,5.12-2.56,6.827L34.093,200.6c-0.853,0.853-0.853,1.707-0.853,2.56c0.853,0.853,0.853,0.853,1.707,0.853h40.96   c5.12,0,8.533,3.413,8.533,8.533v256c0,5.12-3.413,8.533-8.533,8.533h-8.533V494.147z" />
+                                        <path
+                                            d="M255.107,436.12l-5.973-5.973c-0.853-0.853-77.653-75.093-94.72-92.16c-36.693-36.693-28.16-86.187-7.68-107.52   c17.92-18.773,35.84-27.307,56.32-27.307s39.253,11.093,51.2,29.867c11.947-18.773,31.573-29.867,52.053-29.867   s39.253,9.387,56.32,27.307c20.48,22.187,29.013,71.68-7.68,107.52c-17.067,16.213-93.867,91.307-94.72,92.16L255.107,436.12z    M203.907,220.227c-15.36,0-29.867,7.68-43.52,22.187c-15.36,16.213-22.187,54.613,6.827,84.48   c13.653,13.653,69.973,68.267,87.893,86.187c18.773-17.92,75.093-72.533,88.747-86.187c29.013-29.013,23.04-67.413,6.827-84.48   c-13.653-15.36-28.16-22.187-43.52-22.187c-22.187,0-37.547,17.92-44.373,34.987l-7.68,20.48l-7.68-20.48   C240.6,238.147,225.24,220.227,203.907,220.227z" />
+
+                                </svg>
+                                <span>{{ __('Home Visits') }} </span>
+                            </div>
+                            <div>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                    stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right">
+                                    <polyline points="9 18 15 12 9 6"></polyline>
+                                </svg>
+                            </div>
+                        </a>
+
+                        <ul class="collapse submenu list-unstyled" id="visits" data-parent="#accordionExample">
+
+                            <li>
+
+                                <a href="{{ route('admin.visits.index') }}"> {{ __('Home Visits') }}</a>
+                            </li>
+                            <li>
+                                <a href="{{ route('admin.bookings.index') }}"> {{ __('Bookings') }}</a>
+                            </li>
+
+                            <li>
+                                <a href="{{ route('admin.prescriptions.index') }}"> {{ __('Prescriptions') }}</a>
+                            </li>
+
+
+                        </ul>
+                    </li>
+                @endcan
+
+
+
+                {{-- Branchs --}}
+                @can('view_branch')
+                    <li class="menu">
+
+                        <a href="{{ route('admin.branches.index') }}" aria-expanded="true" class="dropdown-toggle">
+                            <div class="">
+                                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                                    version="1.1" id="Layer_1" x="0px" y="0px"
+                                    viewBox="0 0 473.658 473.658" style="enable-background:new 0 0 473.658 473.658;"
+                                    xml:space="preserve">
+                                    <circle style="fill:#A2D4DE;" cx="236.829" cy="236.829" r="236.829" />
+                                    <path style="fill:#6CC077;"
+                                        d="M94.836,221.598c0,0-36.944,80.57-29.677,99.941c0,0-6.054,90.854,160.511,81.766  c0,0,19.809,46.921,63.734,64.422c66.752-15.142,122.794-58.424,154.947-116.769L332.881,85.319L28.036,124.944  c-13.863,25.818-23.043,54.508-26.491,84.938C18.855,215.416,66.068,228.908,94.836,221.598z" />
+                                    <g>
+                                        <path style="fill:#FFFFFF;"
+                                            d="M231.033,401.667c-6.903-22.636-14.712-81.703,61.681-141.11   c26.768-20.83,29.517-43.48,27.097-58.813c-4.588-29.135-32.232-56.935-70.417-70.821c-55.021-20.014-90.764,20.085-119.484,52.295   c-13.205,14.805-25.672,28.791-37.067,33.129c-23.35,8.893-64.77-2.311-90.7-11.155c-0.512,3.799-0.927,7.618-1.257,11.473   c27.505,9.188,70.043,20.048,95.951,10.168c13.949-5.31,26.69-19.596,41.442-36.147c27.849-31.233,59.419-66.625,107.282-49.213   c34.408,12.513,59.205,36.854,63.173,62.018c2.79,17.711-5.134,34.378-22.905,48.215c-81.89,63.689-73.105,128.381-65.522,153.238   c10,32.789,33.159,52.545,61.184,64.456c6.544-1.249,12.988-2.782,19.326-4.559C268.728,454.919,241.608,436.352,231.033,401.667z" />
+                                        <path style="fill:#FFFFFF;"
+                                            d="M194.71,404.924c-50.537,0-94.346-9.364-116.784-36.285c-32.247-38.69-20.5-104.862,28.559-160.934   l8.208,7.18c-50.672,57.911-52.635,117.682-28.387,146.772c56.614,67.941,270.93,12.415,351.616-8.489l6.858-1.784l4.084,10.131   l-8.208,2.199C388.477,377.236,281.633,404.924,194.71,404.924z" />
+                                    </g>
+                                    <path style="fill:#CC3432;"
+                                        d="M203.36,125.695c-23.021,0-41.689,18.676-41.689,41.704c0,30.324,39.344,70.869,42.889,70.869  c3.534,0,40.492-44.116,40.492-70.869C245.049,144.371,226.388,125.695,203.36,125.695z M203.161,181.337  c-9.042,0-16.361-7.128-16.361-15.931c0-8.788,7.318-15.916,16.361-15.916c9.035,0,16.361,7.128,16.361,15.916  C219.522,174.209,212.196,181.337,203.161,181.337z" />
+                                    <path style="fill:#BA2E2D;"
+                                        d="M204.556,240.142c-5.235,0-44.759-41.88-44.759-72.739c0-24.031,19.547-43.574,43.559-43.574  c24.023,0,43.559,19.547,43.559,43.574C246.918,194.478,209.765,240.142,204.556,240.142z M203.36,127.565  c-21.955,0-39.819,17.864-39.819,39.834c0,28.346,35.126,65.566,40.975,68.861c5.587-3.631,38.667-43.866,38.667-68.861  C243.179,145.433,225.315,127.565,203.36,127.565z M203.161,183.207c-10.052,0-18.231-7.984-18.231-17.8  c0-9.809,8.182-17.786,18.231-17.786s18.231,7.977,18.231,17.786C221.392,175.223,213.213,183.207,203.161,183.207z M203.161,151.36  c-7.992,0-14.491,6.298-14.491,14.046s6.499,14.061,14.491,14.061s14.491-6.312,14.491-14.061S211.153,151.36,203.161,151.36z" />
+                                </svg>
+                                <span>{{ __('Branches') }}</span>
+                            </div>
+                        </a>
+                    </li>
+                    <li class="menu">
+
+                        <a href="{{ route('admin.branches_custody.index') }}" aria-expanded="true"
+                            class="dropdown-toggle">
+                            <div class="">
+                                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                                    version="1.1" id="Layer_1" x="0px" y="0px"
+                                    viewBox="0 0 473.658 473.658" style="enable-background:new 0 0 473.658 473.658;"
+                                    xml:space="preserve">
+                                    <circle style="fill:#A2D4DE;" cx="236.829" cy="236.829" r="236.829" />
+                                    <path style="fill:#6CC077;"
+                                        d="M94.836,221.598c0,0-36.944,80.57-29.677,99.941c0,0-6.054,90.854,160.511,81.766  c0,0,19.809,46.921,63.734,64.422c66.752-15.142,122.794-58.424,154.947-116.769L332.881,85.319L28.036,124.944  c-13.863,25.818-23.043,54.508-26.491,84.938C18.855,215.416,66.068,228.908,94.836,221.598z" />
+                                    <g>
+                                        <path style="fill:#FFFFFF;"
+                                            d="M231.033,401.667c-6.903-22.636-14.712-81.703,61.681-141.11   c26.768-20.83,29.517-43.48,27.097-58.813c-4.588-29.135-32.232-56.935-70.417-70.821c-55.021-20.014-90.764,20.085-119.484,52.295   c-13.205,14.805-25.672,28.791-37.067,33.129c-23.35,8.893-64.77-2.311-90.7-11.155c-0.512,3.799-0.927,7.618-1.257,11.473   c27.505,9.188,70.043,20.048,95.951,10.168c13.949-5.31,26.69-19.596,41.442-36.147c27.849-31.233,59.419-66.625,107.282-49.213   c34.408,12.513,59.205,36.854,63.173,62.018c2.79,17.711-5.134,34.378-22.905,48.215c-81.89,63.689-73.105,128.381-65.522,153.238   c10,32.789,33.159,52.545,61.184,64.456c6.544-1.249,12.988-2.782,19.326-4.559C268.728,454.919,241.608,436.352,231.033,401.667z" />
+                                        <path style="fill:#FFFFFF;"
+                                            d="M194.71,404.924c-50.537,0-94.346-9.364-116.784-36.285c-32.247-38.69-20.5-104.862,28.559-160.934   l8.208,7.18c-50.672,57.911-52.635,117.682-28.387,146.772c56.614,67.941,270.93,12.415,351.616-8.489l6.858-1.784l4.084,10.131   l-8.208,2.199C388.477,377.236,281.633,404.924,194.71,404.924z" />
+                                    </g>
+                                    <path style="fill:#CC3432;"
+                                        d="M203.36,125.695c-23.021,0-41.689,18.676-41.689,41.704c0,30.324,39.344,70.869,42.889,70.869  c3.534,0,40.492-44.116,40.492-70.869C245.049,144.371,226.388,125.695,203.36,125.695z M203.161,181.337  c-9.042,0-16.361-7.128-16.361-15.931c0-8.788,7.318-15.916,16.361-15.916c9.035,0,16.361,7.128,16.361,15.916  C219.522,174.209,212.196,181.337,203.161,181.337z" />
+                                    <path style="fill:#BA2E2D;"
+                                        d="M204.556,240.142c-5.235,0-44.759-41.88-44.759-72.739c0-24.031,19.547-43.574,43.559-43.574  c24.023,0,43.559,19.547,43.559,43.574C246.918,194.478,209.765,240.142,204.556,240.142z M203.36,127.565  c-21.955,0-39.819,17.864-39.819,39.834c0,28.346,35.126,65.566,40.975,68.861c5.587-3.631,38.667-43.866,38.667-68.861  C243.179,145.433,225.315,127.565,203.36,127.565z M203.161,183.207c-10.052,0-18.231-7.984-18.231-17.8  c0-9.809,8.182-17.786,18.231-17.786s18.231,7.977,18.231,17.786C221.392,175.223,213.213,183.207,203.161,183.207z M203.161,151.36  c-7.992,0-14.491,6.298-14.491,14.046s6.499,14.061,14.491,14.061s14.491-6.312,14.491-14.061S211.153,151.36,203.161,151.36z" />
+                                </svg>
+                                <span>{{ __('Branches Custody') }}</span>
+                            </div>
+                        </a>
+                    </li>
+                @endcan
+                {{-- Settings --}}
+                @can('view_setting')
+                    <li class="menu">
+
+                        <a href="{{ route('admin.settings.index') }}" aria-expanded="true" class="dropdown-toggle">
+                            <div class="">
+                                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                                    version="1.1" id="Layer_1" x="0px" y="0px" viewBox="0 0 512 512"
+                                    style="enable-background:new 0 0 512 512;" xml:space="preserve">
+                                    <circle style="fill:#71E2EF;" cx="256" cy="256" r="256" />
+                                    <path style="fill:#38C6D9;"
+                                        d="M159.456,400.815l110.783,110.783c130.045-7.132,234.227-111.314,241.359-241.359L400.815,159.456  l-224.689,8.625L159.456,400.815z" />
+                                    <path style="fill:#366695;"
+                                        d="M426.667,290.133v-68.267h-38.434c-3.224-12.526-8.206-24.338-14.624-35.202l27.208-27.208  l-48.273-48.271l-27.208,27.207c-10.864-6.418-22.676-11.4-35.202-14.624V85.333h-68.267v38.434  c-12.526,3.224-24.338,8.206-35.202,14.624l-27.208-27.207l-48.271,48.271l27.208,27.208c-6.418,10.864-11.4,22.676-14.624,35.202  H85.333v68.267h38.434c3.224,12.526,8.206,24.338,14.624,35.202l-27.208,27.208l48.273,48.271l27.208-27.208  c10.864,6.418,22.676,11.4,35.202,14.624v38.436h68.267v-38.434c12.526-3.224,24.338-8.206,35.202-14.624l27.208,27.208  l48.271-48.271l-27.208-27.208c6.418-10.864,11.4-22.676,14.624-35.202h38.436V290.133z M256,307.2c-28.277,0-51.2-22.923-51.2-51.2  s22.923-51.2,51.2-51.2s51.2,22.923,51.2,51.2S284.277,307.2,256,307.2z" />
+                                    <path style="fill:#273B7A;"
+                                        d="M426.667,290.133v-68.267h-38.434c-3.224-12.526-8.206-24.338-14.624-35.202l27.208-27.208  l-48.271-48.271l-27.21,27.208c-10.864-6.418-22.676-11.4-35.202-14.624V85.333h-34.707v119.48c0.191-0.002,0.381-0.014,0.574-0.014  c28.277,0,51.2,22.923,51.2,51.2s-22.923,51.2-51.2,51.2c-0.193,0-0.383-0.012-0.574-0.014v119.48h34.707v-38.434  c12.526-3.224,24.338-8.206,35.202-14.624l27.208,27.208l48.271-48.271l-27.208-27.208c6.418-10.864,11.4-22.676,14.624-35.202  h38.436V290.133z" />
+                                    <path style="fill:#FFC61B;"
+                                        d="M256,338.747c-45.628,0-82.747-37.119-82.747-82.747s37.119-82.747,82.747-82.747  s82.747,37.119,82.747,82.747S301.628,338.747,256,338.747z M256,190.492c-36.121,0-65.508,29.387-65.508,65.508  s29.387,65.508,65.508,65.508s65.508-29.387,65.508-65.508S292.121,190.492,256,190.492z" />
+                                    <path style="fill:#D48B07;"
+                                        d="M256,173.253c-0.193,0-0.381,0.014-0.574,0.014v17.239c0.191-0.002,0.381-0.014,0.574-0.014  c36.121,0,65.508,29.387,65.508,65.508S292.121,321.508,256,321.508c-0.193,0-0.383-0.012-0.574-0.014v17.239  c0.193,0.002,0.381,0.014,0.574,0.014c45.628,0,82.747-37.119,82.747-82.747S301.628,173.253,256,173.253z" />
+                                </svg>
+                                <span>{{ __('Settings') }}</span>
+                            </div>
+                        </a>
+                    </li>
+                @endcan
+                {{-- Chat --}}
+                @can('view_chat')
+                    <li class="menu">
+
+                        <a href="{{ route('admin.chat.index') }}" aria-expanded="true" class="dropdown-toggle">
+                            <div class="">
+                                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                                    version="1.1" id="Capa_1" x="0px" y="0px" viewBox="0 0 58 58"
+                                    style="enable-background:new 0 0 58 58;" xml:space="preserve">
+                                    <g>
+                                        <path style="fill:#7383BF;"
+                                            d="M33.224,10.494H13.776C6.168,10.494,0,16.661,0,24.27v11.345c0,6.929,5.306,12.732,12,13.716v-3.992   c0-0.553,0.448-1,1-1s1,0.447,1,1v4.154l0,0h0v7.446c0,0.503,0.384,0.755,0.74,0.399l1.521-1.521   c4.116-4.116,9.699-6.325,15.52-6.325h1.443C40.832,49.494,47,43.223,47,35.615V24.27C47,16.661,40.832,10.494,33.224,10.494z" />
+                                        <g>
+                                            <path style="fill:#536396;"
+                                                d="M44.224,0.494H24.776c-6.371,0-11.717,4.332-13.292,10.206c0.747-0.125,1.509-0.206,2.292-0.206    h19.448C40.832,10.494,47,16.661,47,24.27v11.345c0,1.259-0.183,2.476-0.5,3.639C52.957,38.061,58,32.37,58,25.615V14.27    C58,6.661,51.832,0.494,44.224,0.494z" />
+                                        </g>
+                                        <path style="fill:#FFFFFF;"
+                                            d="M29,23.506H18c-0.552,0-1-0.447-1-1s0.448-1,1-1h11c0.552,0,1,0.447,1,1S29.552,23.506,29,23.506z" />
+                                        <path style="fill:#FFFFFF;"
+                                            d="M34,30.506H13c-0.552,0-1-0.447-1-1s0.448-1,1-1h21c0.552,0,1,0.447,1,1S34.552,30.506,34,30.506z" />
+                                        <path style="fill:#FFFFFF;"
+                                            d="M34,37.506H13c-0.552,0-1-0.447-1-1s0.448-1,1-1h21c0.552,0,1,0.447,1,1S34.552,37.506,34,37.506z" />
+                                    </g>
+                                </svg>
+                                <span>{{ __('Chat') }}</span>
+                            </div>
+                        </a>
+                    </li>
+                @endcan
+                {{-- Translations --}}
+                @can('view_translation')
+                    <li class="menu">
+
+                        <a href="{{ route('admin.translations.index') }}" aria-expanded="true" class="dropdown-toggle">
+                            <div class="">
+                                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                                    version="1.1" id="Layer_1" x="0px" y="0px" viewBox="0 0 512 512"
+                                    style="enable-background:new 0 0 512 512;" xml:space="preserve">
+                                    <circle style="fill:#FFC61B;" cx="256" cy="256" r="256" />
+                                    <path style="fill:#EAA22F;"
+                                        d="M507.844,302.139L383.871,178.166l-47.38,35.049L242.5,119.224L124.997,330.55L302.266,507.82  C406.6,488.774,488.85,406.49,507.844,302.139z" />
+                                    <path style="fill:#E6E6E6;"
+                                        d="M217.286,173.106h152.798c11.783,0,21.337,9.552,21.337,21.337v176.999  c0,11.783-9.552,21.337-21.337,21.337H269.5L217.286,173.106z" />
+                                    <polygon style="fill:#4254B7;"
+                                        points="313.99,338.894 269.5,392.776 249.247,330.55 " />
+                                    <path style="fill:#627D88;"
+                                        d="M352.006,248.344h22.392v-11.416h-50.431v-14.331h-17.18v14.331h-27.71v11.416h59.77  c-1.767,6.554-7.352,24.078-18.482,32.828c0,0-9.421-10.166-13.577-19.034h-12.073c0,0,6.53,18.011,17.337,28.541l-13.855,14.408  l6.373,11.638c0,0,11.083-9.975,16.072-17.18c0,0,25.216,26.324,32.142,32.142l7.482-9.144c0,0-25.05-23.093-30.758-33.806  C329.507,288.74,349.467,269.29,352.006,248.344z" />
+                                    <path style="fill:#4F8FF5;"
+                                        d="M313.99,338.894H141.917c-11.783,0-21.337-9.552-21.337-21.337V140.56  c0-11.783,9.552-21.337,21.337-21.337h100.585L313.99,338.894z" />
+                                    <path style="fill:#EEEEEE;"
+                                        d="M197.644,223.149v14.989h23.442c-3.324,10.73-13.326,18.525-25.148,18.525  c-14.538,0-26.324-11.786-26.324-26.324c0-14.538,11.785-26.324,26.322-26.324c6.794,0,12.967,2.596,17.637,6.821l11-11.776  c-7.546-6.913-17.598-11.133-28.638-11.133c-23.423,0-42.41,18.987-42.41,42.41c0,23.423,18.987,42.41,42.41,42.41  s42.41-18.987,42.41-42.41c0-2.453-0.226-4.851-0.629-7.19h-40.072V223.149z" />
+                                </svg>
+                                <span>{{ __('Translations') }}</span>
+                            </div>
+                        </a>
+                    </li>
+                @endcan
+
+
+                <li class="menu active">
+
+                    <a target="_blank" href="https://wa.me/201030889618" class="dropdown-toggle">
+                        <div class="">
+                            <img src="https://new.stop4labs.com/img/logo.png" style="height: 32px;">
+                            <span>{{ __('Technical Supports') }}</span>
+                        </div>
+                    </a>
+                </li>
+            </ul>
+
+        </nav>
+    </div>
+    <!--  END SIDEBAR  -->
+@else
+    <!--  BEGIN SIDEBAR  -->
+    <div class="sidebar-wrapper sidebar-theme">
+
+        <nav id="sidebar">
+            <div class="shadow-bottom"></div>
+
+            <ul class="list-unstyled menu-categories" id="accordionExample">
+
+                {{-- Dashboard --}}
+                <li class="menu active">
+
+                    <a href="{{ route('patient.index') }}" data-active="true" aria-expanded="true"
+                        class="dropdown-toggle">
+                        <div class="">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                viewBox="0 0 24 24" fill="#33A9F8" stroke="currentColor" stroke-width="2"
+                                stroke-linecap="round" stroke-linejoin="round" class="feather feather-home">
+                                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                                <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                            </svg>
+                            <span>{{ __('Dashboard') }}</span>
+                        </div>
+                    </a>
+                </li>
+
+                <li class="menu">
+
+                    <a href="{{ route('patient.groups.index') }}" aria-expanded="true" class="dropdown-toggle">
+                        <div class="">
+                            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                                version="1.1" id="Layer_1" x="0px" y="0px" viewBox="0 0 512 512"
+                                style="enable-background:new 0 0 512 512;" xml:space="preserve">
+                                <circle style="fill:#FFC61B;" cx="256" cy="256" r="256" />
+                                <path style="fill:#EAA22F;"
+                                    d="M507.844,302.139L383.871,178.166l-47.38,35.049L242.5,119.224L124.997,330.55L302.266,507.82  C406.6,488.774,488.85,406.49,507.844,302.139z" />
+                                <path style="fill:#E6E6E6;"
+                                    d="M217.286,173.106h152.798c11.783,0,21.337,9.552,21.337,21.337v176.999  c0,11.783-9.552,21.337-21.337,21.337H269.5L217.286,173.106z" />
+                                <polygon style="fill:#4254B7;"
+                                    points="313.99,338.894 269.5,392.776 249.247,330.55 " />
+                                <path style="fill:#627D88;"
+                                    d="M352.006,248.344h22.392v-11.416h-50.431v-14.331h-17.18v14.331h-27.71v11.416h59.77  c-1.767,6.554-7.352,24.078-18.482,32.828c0,0-9.421-10.166-13.577-19.034h-12.073c0,0,6.53,18.011,17.337,28.541l-13.855,14.408  l6.373,11.638c0,0,11.083-9.975,16.072-17.18c0,0,25.216,26.324,32.142,32.142l7.482-9.144c0,0-25.05-23.093-30.758-33.806  C329.507,288.74,349.467,269.29,352.006,248.344z" />
+                                <path style="fill:#4F8FF5;"
+                                    d="M313.99,338.894H141.917c-11.783,0-21.337-9.552-21.337-21.337V140.56  c0-11.783,9.552-21.337,21.337-21.337h100.585L313.99,338.894z" />
+                                <path style="fill:#EEEEEE;"
+                                    d="M197.644,223.149v14.989h23.442c-3.324,10.73-13.326,18.525-25.148,18.525  c-14.538,0-26.324-11.786-26.324-26.324c0-14.538,11.785-26.324,26.322-26.324c6.794,0,12.967,2.596,17.637,6.821l11-11.776  c-7.546-6.913-17.598-11.133-28.638-11.133c-23.423,0-42.41,18.987-42.41,42.41c0,23.423,18.987,42.41,42.41,42.41  s42.41-18.987,42.41-42.41c0-2.453-0.226-4.851-0.629-7.19h-40.072V223.149z" />
+                            </svg>
+                            <span>{{ __('Reports') }}</span>
+                        </div>
+                    </a>
+                </li>
+                <li class="menu">
+
+                    <a href="{{ route('patient.tests_library.index') }}" aria-expanded="true"
+                        class="dropdown-toggle">
+                        <div class="">
+                            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                                version="1.1" id="Layer_1" x="0px" y="0px" viewBox="0 0 512 512"
+                                style="enable-background:new 0 0 512 512;" xml:space="preserve">
+                                <circle style="fill:#FFC61B;" cx="256" cy="256" r="256" />
+                                <path style="fill:#EAA22F;"
+                                    d="M507.844,302.139L383.871,178.166l-47.38,35.049L242.5,119.224L124.997,330.55L302.266,507.82  C406.6,488.774,488.85,406.49,507.844,302.139z" />
+                                <path style="fill:#E6E6E6;"
+                                    d="M217.286,173.106h152.798c11.783,0,21.337,9.552,21.337,21.337v176.999  c0,11.783-9.552,21.337-21.337,21.337H269.5L217.286,173.106z" />
+                                <polygon style="fill:#4254B7;"
+                                    points="313.99,338.894 269.5,392.776 249.247,330.55 " />
+                                <path style="fill:#627D88;"
+                                    d="M352.006,248.344h22.392v-11.416h-50.431v-14.331h-17.18v14.331h-27.71v11.416h59.77  c-1.767,6.554-7.352,24.078-18.482,32.828c0,0-9.421-10.166-13.577-19.034h-12.073c0,0,6.53,18.011,17.337,28.541l-13.855,14.408  l6.373,11.638c0,0,11.083-9.975,16.072-17.18c0,0,25.216,26.324,32.142,32.142l7.482-9.144c0,0-25.05-23.093-30.758-33.806  C329.507,288.74,349.467,269.29,352.006,248.344z" />
+                                <path style="fill:#4F8FF5;"
+                                    d="M313.99,338.894H141.917c-11.783,0-21.337-9.552-21.337-21.337V140.56  c0-11.783,9.552-21.337,21.337-21.337h100.585L313.99,338.894z" />
+                                <path style="fill:#EEEEEE;"
+                                    d="M197.644,223.149v14.989h23.442c-3.324,10.73-13.326,18.525-25.148,18.525  c-14.538,0-26.324-11.786-26.324-26.324c0-14.538,11.785-26.324,26.322-26.324c6.794,0,12.967,2.596,17.637,6.821l11-11.776  c-7.546-6.913-17.598-11.133-28.638-11.133c-23.423,0-42.41,18.987-42.41,42.41c0,23.423,18.987,42.41,42.41,42.41  s42.41-18.987,42.41-42.41c0-2.453-0.226-4.851-0.629-7.19h-40.072V223.149z" />
+                            </svg>
+                            <span>{{ __('Tests Library') }}</span>
+                        </div>
+                    </a>
+                </li>
+                <li class="menu">
+
+                    <a href="{{ route('patient.visits.index') }}" aria-expanded="true" class="dropdown-toggle">
+                        <div class="">
+                            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                                version="1.1" id="Layer_1" x="0px" y="0px"
+                                viewBox="0 0 512 512" style="enable-background:new 0 0 512 512;"
+                                xml:space="preserve">
+                                <circle style="fill:#FFC61B;" cx="256" cy="256" r="256" />
+                                <path style="fill:#EAA22F;"
+                                    d="M507.844,302.139L383.871,178.166l-47.38,35.049L242.5,119.224L124.997,330.55L302.266,507.82  C406.6,488.774,488.85,406.49,507.844,302.139z" />
+                                <path style="fill:#E6E6E6;"
+                                    d="M217.286,173.106h152.798c11.783,0,21.337,9.552,21.337,21.337v176.999  c0,11.783-9.552,21.337-21.337,21.337H269.5L217.286,173.106z" />
+                                <polygon style="fill:#4254B7;"
+                                    points="313.99,338.894 269.5,392.776 249.247,330.55 " />
+                                <path style="fill:#627D88;"
+                                    d="M352.006,248.344h22.392v-11.416h-50.431v-14.331h-17.18v14.331h-27.71v11.416h59.77  c-1.767,6.554-7.352,24.078-18.482,32.828c0,0-9.421-10.166-13.577-19.034h-12.073c0,0,6.53,18.011,17.337,28.541l-13.855,14.408  l6.373,11.638c0,0,11.083-9.975,16.072-17.18c0,0,25.216,26.324,32.142,32.142l7.482-9.144c0,0-25.05-23.093-30.758-33.806  C329.507,288.74,349.467,269.29,352.006,248.344z" />
+                                <path style="fill:#4F8FF5;"
+                                    d="M313.99,338.894H141.917c-11.783,0-21.337-9.552-21.337-21.337V140.56  c0-11.783,9.552-21.337,21.337-21.337h100.585L313.99,338.894z" />
+                                <path style="fill:#EEEEEE;"
+                                    d="M197.644,223.149v14.989h23.442c-3.324,10.73-13.326,18.525-25.148,18.525  c-14.538,0-26.324-11.786-26.324-26.324c0-14.538,11.785-26.324,26.322-26.324c6.794,0,12.967,2.596,17.637,6.821l11-11.776  c-7.546-6.913-17.598-11.133-28.638-11.133c-23.423,0-42.41,18.987-42.41,42.41c0,23.423,18.987,42.41,42.41,42.41  s42.41-18.987,42.41-42.41c0-2.453-0.226-4.851-0.629-7.19h-40.072V223.149z" />
+                            </svg>
+                            <span>{{ __('Home Visit') }}</span>
+                        </div>
+                    </a>
+                </li>
+                <li class="menu">
+
+                    <a href="{{ route('patient.branches.index') }}" aria-expanded="true"
+                        class="dropdown-toggle">
+                        <div class="">
+                            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                                version="1.1" id="Layer_1" x="0px" y="0px"
+                                viewBox="0 0 512 512" style="enable-background:new 0 0 512 512;"
+                                xml:space="preserve">
+                                <circle style="fill:#FFC61B;" cx="256" cy="256" r="256" />
+                                <path style="fill:#EAA22F;"
+                                    d="M507.844,302.139L383.871,178.166l-47.38,35.049L242.5,119.224L124.997,330.55L302.266,507.82  C406.6,488.774,488.85,406.49,507.844,302.139z" />
+                                <path style="fill:#E6E6E6;"
+                                    d="M217.286,173.106h152.798c11.783,0,21.337,9.552,21.337,21.337v176.999  c0,11.783-9.552,21.337-21.337,21.337H269.5L217.286,173.106z" />
+                                <polygon style="fill:#4254B7;"
+                                    points="313.99,338.894 269.5,392.776 249.247,330.55 " />
+                                <path style="fill:#627D88;"
+                                    d="M352.006,248.344h22.392v-11.416h-50.431v-14.331h-17.18v14.331h-27.71v11.416h59.77  c-1.767,6.554-7.352,24.078-18.482,32.828c0,0-9.421-10.166-13.577-19.034h-12.073c0,0,6.53,18.011,17.337,28.541l-13.855,14.408  l6.373,11.638c0,0,11.083-9.975,16.072-17.18c0,0,25.216,26.324,32.142,32.142l7.482-9.144c0,0-25.05-23.093-30.758-33.806  C329.507,288.74,349.467,269.29,352.006,248.344z" />
+                                <path style="fill:#4F8FF5;"
+                                    d="M313.99,338.894H141.917c-11.783,0-21.337-9.552-21.337-21.337V140.56  c0-11.783,9.552-21.337,21.337-21.337h100.585L313.99,338.894z" />
+                                <path style="fill:#EEEEEE;"
+                                    d="M197.644,223.149v14.989h23.442c-3.324,10.73-13.326,18.525-25.148,18.525  c-14.538,0-26.324-11.786-26.324-26.324c0-14.538,11.785-26.324,26.322-26.324c6.794,0,12.967,2.596,17.637,6.821l11-11.776  c-7.546-6.913-17.598-11.133-28.638-11.133c-23.423,0-42.41,18.987-42.41,42.41c0,23.423,18.987,42.41,42.41,42.41  s42.41-18.987,42.41-42.41c0-2.453-0.226-4.851-0.629-7.19h-40.072V223.149z" />
+                            </svg>
+                            <span>{{ __('Our Branches') }}</span>
+                        </div>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+
+
+@endif

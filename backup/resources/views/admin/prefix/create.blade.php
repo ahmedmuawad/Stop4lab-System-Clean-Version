@@ -1,0 +1,45 @@
+@extends('layouts.app')
+
+@section('title')
+{{ __('Create Prefix') }}
+@endsection
+
+@section('breadcrumb')
+                    <li class="breadcrumb-item"><a href="{{route('admin.index')}}">{{__('Home')}}</a></li>
+                    <li class="breadcrumb-item">
+                        <a href="{{route('admin.prefix.index')}}">{{ __('Prefix') }}</a>
+                    </li>
+                    <li class="breadcrumb-item active">{{ __('Create Prefix') }}</li>
+
+@endsection
+
+@section('content')
+<div class="card card-primary">
+    <div class="card-header">
+        <h3 class="card-title">{{ __('Create Prefix') }}</h3>
+    </div>
+    <!-- /.card-header -->
+    <form method="POST" action="{{route('admin.prefix.store')}}">
+        @csrf
+        <div class="card-body">
+            <div class="col-lg-12">
+                @include('admin.prefix._form')
+            </div>
+        </div>
+        <div class="card-footer">
+            <div class="col-lg-12">
+                <button type="submit" class="btn btn-primary">
+                  <i class="fa fa-check"></i>  {{__('Save')}}
+                </button>
+            </div>
+        </div>
+    </form>
+
+    <!-- /.card-body -->
+</div>
+
+@endsection
+@section('scripts')
+    <script src="{{url('js/admin/prefix.js')}}"></script>
+@endsection
+

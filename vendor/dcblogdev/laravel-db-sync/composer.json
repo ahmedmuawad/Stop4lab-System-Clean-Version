@@ -1,0 +1,40 @@
+{
+    "name": "dcblogdev/laravel-db-sync",
+    "description": "Sync database down.",
+    "type": "library",
+    "authors": [
+        {
+            "name": "David Carr",
+            "email": "dave@dcblog.dev"
+        }
+    ],
+    "require-dev": {
+        "orchestra/testbench": "^5.0|^6.23|^7.0",
+        "pestphp/pest": "^1.21",
+        "pestphp/pest-plugin-laravel": "^1.1",
+        "friendsofphp/php-cs-fixer": "^3.9"
+    },
+    "autoload": {
+        "psr-4": {
+            "Dcblogdev\\DbSync\\": "src/",
+            "Dcblogdev\\DbSync\\Tests\\": "tests"
+        }
+    },
+    "autoload-dev": {
+        "classmap": [
+            "tests/TestCase.php"
+        ]
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+              "Dcblogdev\\DbSync\\DbSyncServiceProvider"
+            ]
+        }
+    },
+    "config": {
+        "allow-plugins": {
+            "pestphp/pest-plugin": true
+        }
+    }
+}
